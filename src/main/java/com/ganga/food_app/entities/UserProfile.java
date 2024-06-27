@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.Entity; 
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -20,8 +22,9 @@ public class UserProfile {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "profile_id")
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
-    
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -37,7 +40,7 @@ public class UserProfile {
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
-    
+
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
@@ -46,9 +49,8 @@ public class UserProfile {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     public UserProfile() {
-        
+
     }
 
     public UserProfile(String firstName, String lastName, String phoneNumber) {
@@ -128,5 +130,4 @@ public class UserProfile {
                 + user + "]";
     }
 
-    
 }

@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,6 +28,7 @@ public class User {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "user_id")
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
 
     @Column(name = "username")
@@ -48,11 +52,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "user_role",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
     public User() {
@@ -122,7 +122,7 @@ public class User {
     }
 
     public void addRole(Role role) {
-        if(roles == null)
+        if (roles == null)
             roles = new ArrayList<>();
         roles.add(role);
     }
@@ -139,6 +139,6 @@ public class User {
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles + "]";
-    }    
-    
+    }
+
 }
