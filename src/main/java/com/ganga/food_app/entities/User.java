@@ -36,6 +36,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "enabled")
+    private int enabled = 1;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -122,6 +125,14 @@ public class User {
         if(roles == null)
             roles = new ArrayList<>();
         roles.add(role);
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     @Override
