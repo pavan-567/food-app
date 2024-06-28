@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
@@ -20,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -54,6 +54,11 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Address> addresses;
+
 
     public User() {
 
@@ -121,10 +126,18 @@ public class User {
         this.roles = roles;
     }
 
+    // Helper Methods
     public void addRole(Role role) {
         if (roles == null)
             roles = new ArrayList<>();
         roles.add(role);
+    }
+
+
+    public void addAddress(Address addr) {
+        if(addresses == null)
+            addresses = new ArrayList<>();
+        addresses.add(addr);
     }
 
     public int getEnabled() {
