@@ -10,7 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity; 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -34,6 +34,9 @@ public class UserProfile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "gender")
+    private String gender;
+
     @Column(name = "image")
     private String image;
 
@@ -53,10 +56,11 @@ public class UserProfile {
 
     }
 
-    public UserProfile(String firstName, String lastName, String phoneNumber) {
+    public UserProfile(String firstName, String lastName, String gender, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.gender = gender;
     }
 
     public UUID getId() {
@@ -123,9 +127,18 @@ public class UserProfile {
         this.user = user;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
-        return "UserProfile [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
+        return "UserProfile [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
+                + ", phoneNumber="
                 + phoneNumber + ", image=" + image + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", user="
                 + user + "]";
     }
