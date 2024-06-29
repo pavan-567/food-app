@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -59,6 +60,8 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Address> addresses;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserProfile userProfile;
 
     public User() {
 
@@ -126,6 +129,22 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     // Helper Methods
     public void addRole(Role role) {
         if (roles == null)
@@ -133,9 +152,8 @@ public class User {
         roles.add(role);
     }
 
-
     public void addAddress(Address addr) {
-        if(addresses == null)
+        if (addresses == null)
             addresses = new ArrayList<>();
         addresses.add(addr);
     }
@@ -151,7 +169,8 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles + "]";
+                + ", enabled=" + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles
+                + ", addresses=" + addresses + ", userProfile=" + userProfile + "]";
     }
 
 }

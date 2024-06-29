@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::div})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <div class="container">
+        <div class="my-3">
+            <div class="d-flex justify-content-center mt-5">
+                <div class="card" style="width: 35rem;">
+                    <div class="card-header fw-bold text-center text-capitalize">Registration Form</div>
+                    <div class="card-body">
+                        <form action="#" th:action= "@{'register'}" 
+                        th:object="${userForm}"
+                        method="post" novalidate>
+                            <div class="mb-3">
+                                <label for="uName" class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" id="uName" 
+                                data-th-field="*{username}" required
+                                placeholder="Enter Username" />
+                            <p th:if= "${#fields.hasErrors('username')}" data-th-errors="*{username}" class="text-danger" style="font-size: 12px;"></p>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="fName" class="form-label">First Name</label>
+                                    <input type="text" placeholder="Enter First Name" name="first_name" id="fName" 
+                                    data-th-field="*{firstName}"
+                                    class="form-control" required>
+                                    <p th:if= "${#fields.hasErrors('firstName')}" data-th-errors="*{firstName}" class="text-danger" style="font-size: 12px;"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lName" class="form-label">Last Name</label>
+                                    <input type="text"  placeholder="Enter Last Name" name="last_name" id="lName" class="form-control" data-th-field="*{lastName}" required>
+                                    <p th:if= "${#fields.hasErrors('lastName')}" data-th-errors="*{lastName}" class="text-danger" style="font-size: 12px;"></p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-select" data-th-field="*{gender}" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <p th:if= "${#fields.hasErrors('gender')}" data-th-errors="*{gender}" class="text-danger" style="font-size: 12px;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" name="email" id="email" placeholder="Enter Email" data-th-field="*{email}"  class="form-control" required>
+                                <p th:if= "${#fields.hasErrors('email')}" data-th-errors="*{email}" class="text-danger" style="font-size: 12px;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="pass" class="form-label">Password</label>
+                                <input type="password" name="password" id="pass" placeholder="Enter Password" class="form-control" data-th-field="*{password}" required>
+                                <p th:if= "${#fields.hasErrors('password')}" data-th-errors="*{password}" class="text-danger" style="font-size: 12px;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact" class="form-label">Contact Number</label>
+                                <input type="number" name="phone" id="contact" class="form-control" placeholder="Enter Your Mobile Number" data-th-field="*{phoneNumber}" required>
+                                <p th:if= "${#fields.hasErrors('phoneNumber')}" data-th-errors="*{phoneNumber}" class="text-danger" style="font-size: 12px;"></p>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-danger">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
