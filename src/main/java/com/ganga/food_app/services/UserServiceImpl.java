@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ganga.food_app.entities.User;
@@ -14,11 +15,15 @@ import com.ganga.food_app.repositories.UserRepository;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    @Autowired
     private UserRepository userRepo;
 
     @Override
     public User saveUser(User user) {
-        // TODO Auto-generated method stub
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
