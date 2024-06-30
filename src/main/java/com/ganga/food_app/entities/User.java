@@ -28,7 +28,7 @@ import jakarta.persistence.Table;
 @Table(name = "user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "user_id")
@@ -36,7 +36,7 @@ public class User implements Serializable {
     private UUID id;
 
     @Column(name = "username")
-    private String username;
+    private String name;
 
     @Column(name = "email", unique = true)
     private String email;
@@ -70,8 +70,8 @@ public class User implements Serializable {
 
     }
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
     }
@@ -84,12 +84,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -171,8 +172,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-                + ", enabled=" + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles
+        return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", enabled="
+                + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles
                 + ", addresses=" + addresses + ", userProfile=" + userProfile + "]";
     }
 

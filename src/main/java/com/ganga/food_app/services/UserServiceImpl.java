@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> updateUser(User user) {
         // TODO Auto-generated method stub
         User currentUser = userRepo.findById(user.getId()).get();
-        currentUser.setUsername(user.getUsername());
+        currentUser.setName(user.getName());
         currentUser.setEmail(user.getEmail());
         currentUser.setPassword(user.getPassword());
         currentUser.setEnabled(user.getEnabled());
