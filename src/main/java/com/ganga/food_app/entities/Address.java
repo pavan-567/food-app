@@ -1,5 +1,6 @@
 package com.ganga.food_app.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "address_id")
