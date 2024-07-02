@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Items</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="menu">
+        <div>
+          <h1>Menu</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse eligendi ducimus ea sed qui debitis saepe rerum incidunt, blanditiis nobis dicta ipsa, ratione adipisci maxime praesentium voluptates, provident laboriosam molestias!</p>
+        </div>
+        <div class="d-flex gap-4">
+          <div th:each=" i: ${#numbers.sequence(1, 8)}">
+            <!-- <p th:text="${i}" /> -->
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <img
+                th:src="'/images/menu/menu_' + ${i} + '.png'"
+                alt=""
+                class="rounded-full" style="cursor: pointer;"
+              />
+              <!-- <th:block th:switch="${i}">
+                <div th:case="1">Salad</div>
+                <div th:case="2">Rolls</div>
+                <div th:case="3">Deserts</div>
+                <div th:case="4">Sandwich</div>
+                <div th:case="5">Cake</div>
+                <div th:case="6">Pure Veg</div>
+                <div th:case="7">Pasta</div>
+                <div th:case="8">Noodles</div>
+                <div th:case="*">Unknown</div>
+              </th:block> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <h1>Top Dishes Near You</h1>
+      <hr />
+      <div id="items">
+        <div class="row">
+          <div class="col-md-6 col-lg-4" th:each="item : ${foodItems}">
+            <div class="card mt-3" style="width: 18rem">
+              <img th:src="${item.image}" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title" th:text="${item.name}"></h5>
+                <div class="card-text">
+                  <p th:text="${item.description}"></p>
+                </div>
+                <div th:text="'$' + ${item.price}" class="fw-bold fs-3" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      function menu(id) {
+        switch(id) {
+          case 1 : 
+            return "Salad";
+          case 2 : 
+            return "Rolls";
+          case 3 : 
+          return "Deserts"
+          case 4 : 
+            return "Sandwich"
+          case 5 : 
+            return "Cake";
+          case 6 : 
+          return  "Pure Veg";
+          case 7 : 
+            return "Pasta"
+          case 8 : 
+            return "Noodles";
+          default : 
+            console.log("Invalid")
+        }
+      }
+
+      let image = document.querySelectorAll("#menu img");
+      image.forEach((imgItem, index) => {
+        let div = document.createElement('div')
+        div.innerText = menu(index + 1);
+        imgItem.parentElement.append(div);
+
+        imgItem.addEventListener('click', e => {
+          let url = new URL(window.location.href)
+          console.log(url.searchParams.get('category'))
+          if(url.searchParams.has('category') && url.searchParams.get('category') == menu(index + 1))
+            window.location.href = "/items"
+          else 
+            window.location.href = `/items?category=${menu(index + 1)}`
+        })
+      })
+    </script>
+  </body>
+</html>

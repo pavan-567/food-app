@@ -3,7 +3,7 @@
   lang="en"
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
-  th:replace="~{base::layout(~{::div})}"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
 >
   <head>
     <meta charset="UTF-8" />
@@ -18,5 +18,6 @@
       </div>
       <p>LOL</p>
     </div>
+    <script></script>
   </body>
 </html>

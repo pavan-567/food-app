@@ -33,9 +33,6 @@ public class AuthController {
     public String register(Model model) {
         UserForm userForm = new UserForm();
 
-        // [username=gangu, email=gangu@gmail.com, password=ssssssaasdasf, firstName=13,
-        // lastName=Kaja, phoneNumber=56553132, gender=male]
-
         model.addAttribute("userForm", userForm);
         return "auth/register";
     }

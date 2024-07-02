@@ -9,11 +9,6 @@ import com.ganga.food_app.dao.UserDAOImpl;
 
 @Controller
 public class DemoController {
-    @Autowired
-    private UserDAOImpl userDao;
-
-    @Autowired
-    private FoodDAOImpl foodDao;
 
     @GetMapping("/")
     public String demoTest() {
