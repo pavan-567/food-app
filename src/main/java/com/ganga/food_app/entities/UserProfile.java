@@ -141,8 +141,7 @@ public class UserProfile implements Serializable {
     public String toString() {
         return "UserProfile [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
                 + ", phoneNumber="
-                + phoneNumber + ", image=" + image + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", user="
-                + user + "]";
+                + phoneNumber + ", image=" + image + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt +"]";
     }
 
 }

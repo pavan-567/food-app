@@ -74,4 +74,11 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        // TODO Auto-generated method stub
+        User user = userRepo.findByEmail(email).orElse(null);
+        return Optional.ofNullable(user);
+    }
+
 }

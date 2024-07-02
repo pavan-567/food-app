@@ -14,7 +14,7 @@
     <div class="container">
       <!-- <p sec:authentication="principal.username" /> -->
       <div sec:authorize="isAuthenticated()">
-        <p>Authenticated</p>
+        <p sec:authentication="name"></p>
       </div>
       <p>LOL</p>
     </div>
