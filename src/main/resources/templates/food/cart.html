@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome To Cart</h1>
+        <!-- <th:block th:text="${session.isEmpty()} ? 'Yes' : 'No'">Yes</th:block> -->
+         <hr>
+         <div class="row">
+           <div th:if="${session.isEmpty()}">
+               No Cart Items
+           </div>
+   
+           <div class="table-responsive" th:unless="${session.isEmpty()}">
+               <table class="table table-striped table-hover table-bordered">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                       <th scope="col">Item</th>
+                       <th scope="col">Title</th>
+                       <th scope="col">Price</th>
+                       <th scope="col">Quantity</th>
+                       <th scope="col">Total</th>
+                       <th scope="col">Remove</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr th:each="item : ${session.cart}">
+                       <th scope="row">1</th>
+                       <td>
+                           <img th:src="${item.food.image}" height="50" width="50" alt="" />
+                       </td>
+                       <td th:text="${item.food.name}" />
+                       <td th:text="${item.food.price}">@mdo</td>
+                       <td>
+                         <!-- <div th:replace="fragments/IncDecCartHelper::inc-dec"></div> -->
+                         <form th:action="@{/quantity}" method="post">
+                           <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                           <input type="hidden" name="opt" value="incr" />
+                           <button type="submit" class="btn btn-warning btn-sm"> + </button>
+                         </form>
+                         <span th:text="${item.quantity}"></span>
+                         <form th:action="@{/quantity}" method="post">
+                           <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                           <input type="hidden" name="opt" value="decr" />
+                           <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                         </form>
+                       </td>
+                       <td th:text="${item.totalAmount}"></td>
+                       <td>
+                         <form th:action="@{/removeItem}" method="post">
+                           <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                           <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                         </form>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+           </div>
+         </div>
+         <th:block th:unless="${session.isEmpty()}" th:with="price=${@cartHelper.getTotalPrice()}">
+           <div class="row">
+            <div class="col-md-6">
+              <h1>Cart Totals</h1>
+              <table class="table table-hover table-bordered">
+                <tbody>
+                  <tr>
+                    <td>Subtotal</td>
+                    <td th:text="'$' + ${price}"></td>
+                  </tr>
+                  <tr>
+                    <td>Delivery Fee</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <th>Total</th>
+                    <th th:text="'$' + ${price + 5}"></th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6"></div>
+           </div>
+           <div class="row">
+            <div>
+              <button class="btn btn-danger">Proceed To Checkout</button>
+            </div>
+           </div>
+         </th:block>
+    </div>
+    <script></script>
+</body>
+</html>

@@ -21,7 +21,14 @@
         </ul>
         <div class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Cart</a>
+            <a class="nav-link" href="/cart">Cart 
+              <th:block th:if="${session.cart == null || #lists.size(session.cart) == 0}">
+                <span class="badge rounded-pill text-bg-danger">0</span>  
+              </th:block>
+              <th:block th:unless="${session.cart == null || #lists.size(session.cart) == 0}">
+                <span class="badge rounded-pill text-bg-danger" th:text="${#lists.size(session.cart)}">0</span>
+              </th:block>
+              </a>
           </li>
           <th:block th:unless="${loggedUser}">
             <li class="nav-item">

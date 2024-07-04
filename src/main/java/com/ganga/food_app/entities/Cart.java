@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +23,10 @@ public class Cart {
 
     @Column(name = "quantity")
     private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "food_id")
+    private Food food;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -70,11 +76,20 @@ public class Cart {
         this.updatedAt = updatedAt;
     }
 
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
     @Override
     public String toString() {
         return "Cart [id=" + id + ", quantity=" + quantity + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
                 + "]";
     }
+
 
     
 }

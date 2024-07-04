@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -50,8 +51,7 @@ public class Food {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany
-    @JoinColumn(name = "food_id")
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private List<Cart> cartItems;
 
     public Food() {

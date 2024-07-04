@@ -45,16 +45,49 @@
       <div id="items">
         <div class="row">
           <div class="col-md-6 col-lg-4" th:each="item : ${foodItems}">
-            <div class="card mt-3" style="width: 18rem">
-              <img th:src="${item.image}" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title" th:text="${item.name}"></h5>
-                <div class="card-text">
-                  <p th:text="${item.description}"></p>
+            <th:block th:with="hasItem=${@cartHelper.isItemInCart(item)}">
+              <div class="card mt-3" style="width: 18rem">
+                <div class="position-relative">
+                  <img th:src="${item.image}" class="card-img-top" alt="..." />
+                  <div th:if="${hasItem}" class="position-absolute" style="bottom: 0; right: 0;">
+                    <!--  -->
+                    <form th:action="@{/quantity}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <input type="hidden" name="opt" value="incr" />
+                      <button type="submit" class="btn btn-warning btn-sm"> + </button>
+                    </form>
+                    <!--  -->
+                    <span th:text="${@cartHelper.getItemQuantity(item)}" />
+                    <!--  -->
+                    <form th:action="@{/quantity}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <input type="hidden" name="opt" value="decr" />
+                      <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                    </form>
+                    <!--  -->
+                  </div>
                 </div>
-                <div th:text="'$' + ${item.price}" class="fw-bold fs-3" />
+                <div class="card-body">
+                  <h5 class="card-title" th:text="${item.name}"></h5>
+                  <div class="card-text">
+                    <p th:text="${item.description}"></p>
+                  </div>
+                  <div th:text="'$' + ${item.price}" class="fw-bold fs-3" />
+                  <!-- Form To Add To Cart -->
+                   <form th:action="@{/add-to-cart}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <th:block th:if="${hasItem}">
+                        <a href="/cart" class="btn btn-danger btn-sm">Go To Cart</a>
+                      </th:block>
+                      <th:block th:unless="${hasItem}">
+                        <button type="submit" class="btn btn-warning btn-sm">Add To Cart</button>
+                      </th:block>
+                   </form>
+                   <!-- <th:block th:text="${@cartHelper.isItemInCart(item)}"></th:block> -->
+                  <button class="btn btn-success btn-sm">Buy Now</button>
+                </div>
               </div>
-            </div>
+            </th:block>
           </div>
         </div>
       </div>
