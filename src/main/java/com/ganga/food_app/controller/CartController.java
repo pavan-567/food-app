@@ -81,8 +81,6 @@ public class CartController {
                 }
             }
         }
-        
-
         // Referer (sometimes spelled Referrer) is an HTTP header sent by the browser. It contains the URL of the web page that linked to the resource being requested. In simpler terms, it tells the server the URL from which the request originated.
         String referrer = request.getHeader("Referer");
         return "redirect:" + (referrer != null ? referrer : "/");

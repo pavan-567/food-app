@@ -32,6 +32,21 @@ public class CartHelper {
         return false;
     }
 
+    public boolean isCartEmpty() {
+        List<CartInput> cartInputs = null;
+        try {
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession();
+
+            cartInputs = (List<CartInput>) session.getAttribute("cart");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("YAR EMPTY ? " + cartInputs);
+        if(cartInputs == null || cartInputs.size() == 0) return true;
+        return false;
+    }
+
     public int getItemQuantity(Food food) {
         List<CartInput> cartInputs = null;
 
