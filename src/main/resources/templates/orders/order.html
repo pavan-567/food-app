@@ -57,7 +57,15 @@
                                   </tr>
                                 </tbody>
                               </table>
-                              <button class="btn btn-danger btn-sm">Proceed To Payment</button>
+                              <div>
+                                <form th:action="@{/payment/create}" method="post">
+                                  <input type="hidden" name="method" value="paypal" />
+                                  <input type="hidden" name="amount" th:value="${price}" />
+                                  <input type="hidden" name="currency" value="USD" />
+                                  <input type="hidden" name="description" value="This Is Paypal" />
+                                  <button type="submit" class="btn btn-danger btn-sm">Proceed To Payment</button>
+                                </form>
+                              </div>
                     </div>
                 </div>
             </th:block>

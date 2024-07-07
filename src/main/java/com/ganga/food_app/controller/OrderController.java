@@ -24,7 +24,7 @@ public class OrderController {
         return "redirect:/items";
     }
 
-    @GetMapping("")
+    @GetMapping("/placeOrder")
     public String order(Model model) {
         User user = (User) model.getAttribute("loggedUser");
         List<Address> addresses = addressService.getUserAddresses(user);
