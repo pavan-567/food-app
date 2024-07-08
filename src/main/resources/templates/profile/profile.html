@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header text-center fw-bold fs-3">User Profile</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <form th:action="@{/profile/updateDP}" method="post" id="dp" enctype="multipart/form-data">
+                            <!-- Avatar -->
+                             <label for="fileUpload" class="form-label">
+                                 <img th:src="${loggedUser.userProfile.image}" alt="" id="imageToClick" class="img-thumbnail rounded mx-auto d-block" height="300" width="300" />
+                             </label>
+                             <input type="file" name="image" id="fileUpload" accept="image/*" style="display: none;" class="form-control" onchange="submitForm()" />
+                        </form>
+                    </div>
+                    <div class="col-sm-8">
+                        <!-- Details -->
+                         <h1 th:text="${loggedUser.name}" class="text-center"></h1>
+                         <hr>
+                         <table class="table table-striped table-bordered table-hover table-responsive">
+                            <tbody>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td th:text="${loggedUser.userProfile.firstName}"></td>
+                                </tr>
+                                <tr>
+                                    <th>Last Name</th>
+                                    <td th:text="${loggedUser.userProfile.lastName}"></td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td th:text="${loggedUser.email}"></td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td th:text="${loggedUser.userProfile.gender}"></td>
+                                </tr>
+                                <tr>
+                                    <th>Phone Number</th>
+                                    <td th:text="${loggedUser.userProfile.phoneNumber}"></td>
+                                </tr>
+                            </tbody>
+                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const fileUpload = document.getElementById("fileUpload");
+
+            function submitForm() {
+                const form = document.getElementById("dp");
+                form.submit();
+            }
+
+            // const imageToClick = document.getElementById("imageToClick");
+            //     imageToClick.addEventListener("click", function() {
+            //     fileUpload.click();
+            // });
+    </script>
+  </body>
+</html>

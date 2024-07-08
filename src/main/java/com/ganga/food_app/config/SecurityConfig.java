@@ -38,6 +38,7 @@ public class SecurityConfig {
             configurer.requestMatchers("/orders/**").authenticated();
             configurer.requestMatchers("/address/**").authenticated();
             configurer.requestMatchers("/admin/**").hasRole("ADMIN");
+            configurer.requestMatchers("/profile/**").authenticated();
             configurer.anyRequest().permitAll();
         });
 

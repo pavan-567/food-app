@@ -40,7 +40,9 @@
           </th:block>
           <th:block th:if="${loggedUser}">
             <li class="nav-item">
-              <a href="#" class="nav-link">Welcome</a>
+              <a href="/profile" class="nav-link">
+                <img th:src="${loggedUser.userProfile.image}" height="30" width="30" alt="" class="object-fit-cover rounded" />
+                <span class="fw-bold" th:text="${loggedUser.name}"></span></a>
             </li>
             <li class="nav-item">
               <a href="/logout" class="nav-link">Logout</a>

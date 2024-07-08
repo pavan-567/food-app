@@ -65,12 +65,7 @@ public class AdminController {
     public String processFood(@RequestParam("image") MultipartFile imgFile, @RequestParam("name") String itemName,
             @RequestParam("description") String description, @RequestParam("category") String category,
             @RequestParam("price") int price) throws IOException {
-        System.out.println(imgFile.getName());
-        System.out.println(imgFile.getOriginalFilename());
-        System.out.println(itemName);
-        System.out.println(description);
-        System.out.println(category);
-
+                
         File file = new ClassPathResource("static/images/items").getFile();
         String newName = "food_" + UUID.randomUUID() + ".png";
         Path path = Paths.get(file.getAbsolutePath() + File.separator + newName);
