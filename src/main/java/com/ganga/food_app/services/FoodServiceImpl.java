@@ -35,4 +35,21 @@ public class FoodServiceImpl implements FoodService {
         return foodRepo.findByCategory(category);
     }
 
+    @Override
+    public void deleteFood(UUID foodId) {
+        foodRepo.deleteById(foodId);
+    }
+
+    @Override
+    public List<String> getFoodCategories() {
+        // TODO Auto-generated method stub
+        return foodRepo.findDistinctCategories();
+    }
+
+    @Override
+    public void createFood(Food food) {
+        // TODO Auto-generated method stub
+       foodRepo.save(food);
+    }
+
 }

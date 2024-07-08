@@ -25,7 +25,7 @@
                             <div th:text="${orderNames[stat.index]}" />
                         </div>
                         <div class="col-md-1">
-                            <div th:text="'$' + ${order.amount + 5}" /> 
+                            <div th:text="'$' + ${order.amount}" /> 
                         </div>
                         <div class="col-md-1">
                             <div th:text="'Items : ' + ${#lists.size(order.cartItems)}" />

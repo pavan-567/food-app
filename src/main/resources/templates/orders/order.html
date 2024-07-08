@@ -62,7 +62,7 @@
                                   <input type="hidden" name="amount" th:value="${price}" />
                                   <input type="hidden" name="currency" value="USD" />
                                   <input type="hidden" name="description" value="This Is Paypal" />
-                                  <button type="submit" class="btn btn-danger btn-sm">Proceed To Payment</button>
+                                  <button type="submit" class="btn btn-danger btn-sm" th:unless="${#lists.isEmpty(address)}">Proceed To Payment</button>
                               </div>
                     </div>
                 </div>

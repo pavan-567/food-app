@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"   xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::script})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foods</title>
+</head>
+<body>
+    <div class="container">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <th>Image</th>
+                <th>
+                    Name
+                </th>
+                <th>Category</th>
+
+                <th>Price</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr th:each="food : ${foods}">
+                    <td>
+                        <img th:src="${food.image}" height="50" width="50" alt="" />
+                    </td>
+                    <td th:text="${food.name}"></td>
+                    <td th:text="${food.category}"></td>
+                    <td th:text="${'$' + food.price}"></td>
+                    <td>
+                        <form th:action="@{/admin/removeItem}" method="post">
+                            <input type="hidden" name="foodId" th:value="${food.id}" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script></script>
+</body>
+</html>

@@ -36,7 +36,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer -> {
             configurer.requestMatchers("/user/**").authenticated();
             configurer.requestMatchers("/orders/**").authenticated();
-            // configurer.requestMatchers("/address/**").authenticated();
+            configurer.requestMatchers("/address/**").authenticated();
+            configurer.requestMatchers("/admin/**").hasRole("ADMIN");
             configurer.anyRequest().permitAll();
         });
 

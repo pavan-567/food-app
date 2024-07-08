@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"   xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::script})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foods</title>
+</head>
+<body>
+    <div class="container">
+        <form th:action="@{/admin/add}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="img" class="form-label">Image</label>
+                <input type="file" name="image" id="img" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Item Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter Item Name" required />
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Item Description</label>
+                <textarea class="form-control" id="desc" name="description" rows="3" required placeholder="Enter Description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Product Category</label>
+                <select name="category" id="category" class="form-select">
+                    <option th:value="${category}" th:each="category : ${categories}" th:text="${category}" />
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="">Product Price</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    <input type="number" name="price" class="form-control" placeholder="Enter Price" required />
+                </div>
+            </div>
+            <div class="mb-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script></script>
+</html>

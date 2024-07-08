@@ -9,4 +9,7 @@ public interface FoodService {
     List<Food> getAllFoods();
     List<Food> getFoodViaCategory(String category);
     Food getFood(UUID foodId);
+    void deleteFood(UUID foodId);
+    List<String> getFoodCategories();
+    void createFood(Food food);
 }

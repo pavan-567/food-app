@@ -1,6 +1,8 @@
 package com.ganga.food_app.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,18 @@ public class OrdersServiceImpl implements OrdersService {
         return orderRepository.findByUser(user);
     }
 
+    @Override
+    public List<Orders> getAllOrders() {
+        // TODO Auto-generated method stub
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Orders getOrder(UUID id) {
+        Optional<Orders> order = orderRepository.findById(id);
+        if (order.isPresent())
+            return order.get();
+        return null;
+    }
 
 }
