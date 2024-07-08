@@ -66,12 +66,25 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
 
+    @OneToMany(mappedBy = "user")
+    private List<Orders> orders;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
 
     public User() {
 
     }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
+
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -163,6 +176,14 @@ public class User implements Serializable, UserDetails {
         if (addresses == null)
             addresses = new ArrayList<>();
         addresses.add(addr);
+        addr.setUser(this);
+    }
+
+    public void addOrder(Orders order) {
+        if(orders == null) 
+            orders = new ArrayList<>();
+        orders.add(order);
+        order.setUser(this);
     }
 
     public int getEnabled() {

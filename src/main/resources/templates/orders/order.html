@@ -12,6 +12,7 @@
   </head>
   <body>
     <div class="container">
+      <form th:action="@{/payment/create}" method="post">
         <th:block th:with="isEmpty=${@cartHelper.isCartEmpty()}">
             <div th:if="${isEmpty}">
                 Add Items To The Cart To Proceed Further
@@ -24,7 +25,7 @@
                         </div>
                         <div th:each="addr : ${address}">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="address" id="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="address" th:value="${addr.id}" id="flexRadioDefault1" required />
                             <div class="form-check-label" for="flexRadioDefault1">
                               <div class="card">
                                 <div class="card-body">
@@ -35,7 +36,6 @@
                               </div>
                             </div>
                           </div>
-                          
                         </div>
                         <a href="/address" class="btn btn-danger btn-sm">Create</a>
                     </div>
@@ -58,18 +58,17 @@
                                 </tbody>
                               </table>
                               <div>
-                                <form th:action="@{/payment/create}" method="post">
                                   <input type="hidden" name="method" value="paypal" />
                                   <input type="hidden" name="amount" th:value="${price}" />
                                   <input type="hidden" name="currency" value="USD" />
                                   <input type="hidden" name="description" value="This Is Paypal" />
                                   <button type="submit" class="btn btn-danger btn-sm">Proceed To Payment</button>
-                                </form>
                               </div>
                     </div>
                 </div>
             </th:block>
         </th:block>
+      </form>
     </div>
     <script></script>
   </body>

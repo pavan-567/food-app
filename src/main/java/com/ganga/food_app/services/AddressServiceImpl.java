@@ -1,6 +1,8 @@
 package com.ganga.food_app.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,12 @@ public class AddressServiceImpl implements AddressService {
     public List<Address> getUserAddresses(User user) {
         List<Address> userAddr = addressRepository.findByUser(user);
         return userAddr;
+    }
+
+    @Override
+    public Address getAddress(UUID id) {
+       Optional<Address> addr = addressRepository.findById(id);
+       return addr.orElseGet(null);
     }
 
 

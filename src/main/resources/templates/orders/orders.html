@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+  </head>
+  <body>
+    <div class="container">
+        <h1>Orders</h1>
+        <hr>
+        <div th:each="order, stat : ${orders}">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <img th:src="@{/images/icons/parcel_icon.png}" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            <div th:text="${orderNames[stat.index]}" />
+                        </div>
+                        <div class="col-md-1">
+                            <div th:text="'$' + ${order.amount + 5}" /> 
+                        </div>
+                        <div class="col-md-1">
+                            <div th:text="'Items : ' + ${#lists.size(order.cartItems)}" />
+                        </div>
+                        <div class="col-md-2">
+                            <div th:text="${order.orderStatus}" />
+                        </div>
+                        <div class="col-md-2">
+                            <div>Track Order</div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <script></script>
+  </body>
+</html>

@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 
 import com.paypal.api.payments.Amount;
+import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
@@ -34,9 +35,14 @@ public class PaypalService {
     ) throws PayPalRESTException {
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format(Locale.forLanguageTag(currency), "%.2f", total));
+        amount.setTotal(String.format(Locale.forLanguageTag(currency), "%.2f", (total + 5)));
 
-        
+        Details details = new Details();
+        details.setShipping(String.format("%.2f", Double.valueOf("5")));
+        details.setSubtotal(String.format(Locale.forLanguageTag(currency), "%.2f", total));
+
+        amount.setDetails(details);
+
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
         transaction.setAmount(amount);

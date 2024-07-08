@@ -23,7 +23,6 @@ public class RootController {
             System.out.println(email);
             u = userService.getUserByEmail(email).orElse(null);
         }
-        System.out.println("Adding Login -> " + u);
         model.addAttribute("loggedUser", u);
     }
 }

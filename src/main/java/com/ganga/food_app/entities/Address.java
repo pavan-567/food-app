@@ -80,8 +80,7 @@ public class Address implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany
-    @JoinColumn(name = "address_id")
+    @OneToMany(mappedBy = "address")
     private List<Orders> orders;
 
     @ManyToOne
@@ -222,6 +221,7 @@ public class Address implements Serializable {
         if (orders == null)
             orders = new ArrayList<>();
         orders.add(order);
+        order.setAddress(this);
     }
 
     @Override
