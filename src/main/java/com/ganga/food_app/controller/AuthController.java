@@ -13,8 +13,11 @@ import com.ganga.food_app.entities.Role;
 import com.ganga.food_app.entities.User;
 import com.ganga.food_app.entities.UserProfile;
 import com.ganga.food_app.forms.UserForm;
+import com.ganga.food_app.helpers.Message;
+import com.ganga.food_app.helpers.HelperEnums.MessageType;
 import com.ganga.food_app.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -38,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors())
             return "auth/register";
 
@@ -64,6 +67,8 @@ public class AuthController {
             up.setImage("/images/profile/female.png");
         }
 
+        session.setAttribute("message", new Message("Registration Successfull", MessageType.SUCCESS));
+        
         userService.saveUser(u);
         return "redirect:/auth/register";
     }

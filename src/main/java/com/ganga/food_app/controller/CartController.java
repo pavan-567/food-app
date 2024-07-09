@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ganga.food_app.entities.Food;
 import com.ganga.food_app.helpers.CartInput;
+import com.ganga.food_app.helpers.Message;
+import com.ganga.food_app.helpers.HelperEnums.MessageType;
 import com.ganga.food_app.services.FoodService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,8 +56,6 @@ public class CartController {
 
     @GetMapping("/cart")
     public String Cart(Model m, HttpSession session) {
-        List<CartInput> cart = (List<CartInput>) session.getAttribute("cart");
-        System.out.println(cart);
         return "food/cart";
     }
 

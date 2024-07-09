@@ -39,6 +39,11 @@ public class AddressServiceImpl implements AddressService {
        return addr.orElseGet(null);
     }
 
+    @Override
+    public void removeAddress(UUID id) {
+        addressRepository.deleteById(id);
+    }
+
 
 
 }

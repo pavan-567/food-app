@@ -12,6 +12,9 @@
                 <div class="card" style="width: 35rem;">
                     <div class="card-header fw-bold text-center text-capitalize">Registration Form</div>
                     <div class="card-body">
+                        <!-- Messsage -->
+                            <div th:replace="fragments/message::message"></div>
+                        <!--  -->
                         <form action="#" th:action= "@{'register'}" 
                         th:object="${userForm}"
                         method="post" novalidate>

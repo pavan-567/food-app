@@ -195,13 +195,6 @@ public class User implements Serializable, UserDetails {
     }
 
     @Override
-    public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", enabled="
-                + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", roles=" + roles
-                + ", addresses=" + addresses + ", userProfile=" + userProfile + "]";
-    }
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        Collection<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).toList();
        return authorities;

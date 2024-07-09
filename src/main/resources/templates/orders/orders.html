@@ -14,6 +14,9 @@
     <div class="container">
         <h1>Orders</h1>
         <hr>
+        <div th:if="${#lists.size(orders) == 0}">
+            No Orders
+         </div>
         <div th:each="order, stat : ${orders}">
             <div class="card">
                 <div class="card-body">

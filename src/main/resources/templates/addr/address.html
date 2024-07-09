@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Form</title>
+  </head>
+  <body>
+    <div class="container">
+      <div th:replace="fragments/message::message"></div>
+       <div class="d-flex align-items-center justify-content-between">
+        <h1>Your Addresses</h1>
+        <a href="/address/create" class="btn btn-danger">Add Address</a>
+       </div>
+       <hr>
+       <div th:if="${#lists.size(addresses) == 0}">
+          No Addresses
+       </div>
+       <div class="card mt-3" th:each="address : ${addresses}">
+        <div class="card-body" th:object="${address}">
+          <div class="d-flex align-items-center justify-content-between">
+            <h3 th:text="*{firstName} + ' ' + *{lastName}" />
+            <form th:action="@{/address/delete}" method="post">
+              <input type="hidden" name="addressId" th:value="*{id}" />
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+          <p th:text="*{email}"></p>
+          <p th:text="*{street} + ' ' + *{city}"></p>
+          <p th:text="*{phoneNumber}"></p>
+        </div>
+      </div>
+    </div>
+    <script></script>
+  </body>
+</html>

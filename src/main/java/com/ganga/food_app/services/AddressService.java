@@ -11,4 +11,5 @@ public interface AddressService {
     List<Address> getAllAddress();
     List<Address> getUserAddresses(User user);
     Address getAddress(UUID id);
+    void removeAddress(UUID id);
 }
