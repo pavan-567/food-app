@@ -21,7 +21,7 @@ public class DemoController {
 
     @GetMapping("/")
     public String demoTest() {
-        return "demo";
+        return "redirect:/items";
     }
 
     @GetMapping("/roleAdmn")

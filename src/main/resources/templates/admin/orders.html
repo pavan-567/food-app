@@ -8,10 +8,10 @@ th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::sc
     <title>Foods</title>
 </head>
 <body>
-    <div class="container">
         <div class="container">
             <h1>Orders</h1>
             <hr>
+            <div th:if="${#lists.size(orders) == 0}">No Orders</div>
             <div th:each="order, stat : ${orders}">
                 <div class="card">
                     <div class="card-body">
@@ -49,7 +49,6 @@ th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::sc
                   </div>
             </div>
         </div>
-    </div>
     <script></script>
 </body>
 </html>

@@ -18,6 +18,8 @@ import com.ganga.food_app.entities.Cart;
 import com.ganga.food_app.entities.Orders;
 import com.ganga.food_app.entities.User;
 import com.ganga.food_app.helpers.CartInput;
+import com.ganga.food_app.helpers.Message;
+import com.ganga.food_app.helpers.HelperEnums.MessageType;
 import com.ganga.food_app.services.AddressService;
 import com.ganga.food_app.services.OrdersService;
 import com.ganga.food_app.services.PaypalService;
@@ -105,7 +107,9 @@ public class PaypalController {
                 ordersService.save(order);
                 
                 session.removeAttribute("cart");
-                return "payment/paymentSuccess";
+                session.removeAttribute("address");
+                session.setAttribute("message", new Message("Order Placed Successfully!", MessageType.SUCCESS));
+                return "redirect:/orders";
             }
         } catch (PayPalRESTException e) {
             e.printStackTrace();
@@ -116,7 +120,8 @@ public class PaypalController {
     @GetMapping("/cancel")
     public String paymentCancel(HttpSession session) {
         session.removeAttribute("address");
-        return "payment/paymentCancel";
+        session.setAttribute("message", new Message("Payment Cancelled! Please Try Again!", MessageType.DANGER));
+        return "redirect:/orders";
     }
 
     @GetMapping("/error")

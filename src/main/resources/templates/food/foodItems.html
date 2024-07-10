@@ -49,22 +49,18 @@
               <div class="card mt-3" style="width: 18rem">
                 <div class="position-relative">
                   <img th:src="${item.image}" class="card-img-top" alt="..." />
-                  <div th:if="${hasItem}" class="position-absolute" style="bottom: 0; right: 0;">
-                    <!--  -->
+                  <div th:if="${hasItem}" class="position-absolute d-flex align-items-center gap-2" style="bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.2); padding: 5px;">
                     <form th:action="@{/quantity}" method="post">
                       <input type="hidden" name="foodId" th:value="${item.id}" />
                       <input type="hidden" name="opt" value="incr" />
                       <button type="submit" class="btn btn-warning btn-sm"> + </button>
                     </form>
-                    <!--  -->
                     <span th:text="${@cartHelper.getItemQuantity(item)}" />
-                    <!--  -->
                     <form th:action="@{/quantity}" method="post">
                       <input type="hidden" name="foodId" th:value="${item.id}" />
                       <input type="hidden" name="opt" value="decr" />
                       <button type="submit" class="btn btn-danger btn-sm"> - </button>
                     </form>
-                    <!--  -->
                   </div>
                 </div>
                 <div class="card-body">
@@ -74,7 +70,8 @@
                   </div>
                   <div th:text="'$' + ${item.price}" class="fw-bold fs-3" />
                   <!-- Form To Add To Cart -->
-                   <form th:action="@{/add-to-cart}" method="post">
+                   <div class="d-flex align-items-center gap-3">
+                    <form th:action="@{/add-to-cart}" method="post">
                       <input type="hidden" name="foodId" th:value="${item.id}" />
                       <th:block th:if="${hasItem}">
                         <a href="/cart" class="btn btn-danger btn-sm">Go To Cart</a>
@@ -82,9 +79,10 @@
                       <th:block th:unless="${hasItem}">
                         <button type="submit" class="btn btn-warning btn-sm">Add To Cart</button>
                       </th:block>
-                   </form>
+                     </form>
+                     <button class="btn btn-success btn-sm">Buy Now</button>
+                   </div>
                    <!-- <th:block th:text="${@cartHelper.isItemInCart(item)}"></th:block> -->
-                  <button class="btn btn-success btn-sm">Buy Now</button>
                 </div>
               </div>
             </th:block>

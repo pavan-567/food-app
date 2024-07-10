@@ -35,22 +35,24 @@
                            <img th:src="${item.food.image}" height="50" width="50" alt="" />
                        </td>
                        <td th:text="${item.food.name}" />
-                       <td th:text="${item.food.price}">@mdo</td>
+                       <td th:text="${'$' + item.food.price}">@mdo</td>
                        <td>
                          <!-- <div th:replace="fragments/IncDecCartHelper::inc-dec"></div> -->
-                         <form th:action="@{/quantity}" method="post">
-                           <input type="hidden" name="foodId" th:value="${item.food.id}" />
-                           <input type="hidden" name="opt" value="incr" />
-                           <button type="submit" class="btn btn-warning btn-sm"> + </button>
-                         </form>
-                         <span th:text="${item.quantity}"></span>
-                         <form th:action="@{/quantity}" method="post">
-                           <input type="hidden" name="foodId" th:value="${item.food.id}" />
-                           <input type="hidden" name="opt" value="decr" />
-                           <button type="submit" class="btn btn-danger btn-sm"> - </button>
-                         </form>
+                          <div class="d-flex align-items-center gap-2">
+                            <form th:action="@{/quantity}" method="post">
+                              <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                              <input type="hidden" name="opt" value="incr" />
+                              <button type="submit" class="btn btn-warning btn-sm"> + </button>
+                            </form>
+                            <span th:text="${item.quantity}"></span>
+                            <form th:action="@{/quantity}" method="post">
+                              <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                              <input type="hidden" name="opt" value="decr" />
+                              <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                            </form>
+                          </div>
                        </td>
-                       <td th:text="${item.totalAmount}"></td>
+                       <td th:text="${'$' + item.totalAmount}"></td>
                        <td>
                          <form th:action="@{/removeItem}" method="post">
                            <input type="hidden" name="foodId" th:value="${item.food.id}" />
@@ -74,7 +76,7 @@
                   </tr>
                   <tr>
                     <td>Delivery Fee</td>
-                    <td>5</td>
+                    <td>$5</td>
                   </tr>
                   <tr>
                     <th>Total</th>

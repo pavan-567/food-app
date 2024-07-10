@@ -2,12 +2,14 @@ package com.ganga.food_app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -42,6 +44,13 @@ public class OrderController {
         return "orders/orders";
     }
 
+    @GetMapping("/{id}")
+    public String order(@PathVariable("id") UUID orderId, Model model) {
+        Orders order = ordersService.getOrder(orderId);
+        model.addAttribute("order", order);
+        return "orders/order";
+    }
+
     @PostMapping("/create")
     public String placeOrder() {
         return "redirect:/items";
@@ -52,6 +61,6 @@ public class OrderController {
         User user = (User) model.getAttribute("loggedUser");
         List<Address> addresses = addressService.getUserAddresses(user);
         model.addAttribute("address", addresses);
-        return "orders/order";
+        return "orders/placeOrder";
     }
 }

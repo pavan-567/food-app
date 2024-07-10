@@ -12,6 +12,7 @@
   </head>
   <body>
     <div class="container">
+        <div th:replace="fragments/message::message"></div>
         <h1>Orders</h1>
         <hr>
         <div th:if="${#lists.size(orders) == 0}">
@@ -37,7 +38,7 @@
                             <div th:text="${order.orderStatus}" />
                         </div>
                         <div class="col-md-2">
-                            <div>Track Order</div>
+                            <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-danger btn-sm">More Details</a>
                         </div>
                     </div>
                 </div>
