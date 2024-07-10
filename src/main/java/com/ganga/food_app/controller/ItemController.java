@@ -44,4 +44,15 @@ public class ItemController {
         return "food/foodItem";
     }
 
+    @PostMapping("/buyItem")
+    public String buyDirectItem(@RequestParam("foodId") UUID foodId, HttpSession session) {
+        Food food = foodService.getFood(foodId);
+        CartInput input = new CartInput();
+        input.setFood(food);
+        input.setQuantity(1);
+        input.setTotalAmount(food.getPrice());
+        session.setAttribute("cart", new ArrayList<CartInput>(List.of(input)));
+        return "redirect:/orders/placeOrder";
+    }
+
 }

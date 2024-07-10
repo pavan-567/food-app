@@ -80,7 +80,11 @@
                         <button type="submit" class="btn btn-warning btn-sm">Add To Cart</button>
                       </th:block>
                      </form>
-                     <button class="btn btn-success btn-sm">Buy Now</button>
+
+                     <form th:action="@{/items/buyItem}" method="POST">
+                       <input type="hidden" name="foodId" th:value="${item.id}" />
+                       <button class="btn btn-success btn-sm">Buy Now</button>
+                     </form>
                    </div>
                    <!-- <th:block th:text="${@cartHelper.isItemInCart(item)}"></th:block> -->
                 </div>
