@@ -6,10 +6,9 @@
     <title>Cart</title>
 </head>
 <body>
-    <div class="container" th:with="isEmpty=${@cartHelper.isCartEmpty()}">
-        <h1>Welcome To Cart</h1>
+    <div class="container mx-auto" th:with="isEmpty=${@cartHelper.isCartEmpty()}">
         <!-- <th:block th:text="${session.isEmpty()} ? 'Yes' : 'No'">Yes</th:block> -->
-         <hr>
+         <!-- <hr>
          <div class="row">
            <div th:if="${isEmpty}">
                No Cart Items
@@ -19,7 +18,6 @@
                <table class="table table-striped table-hover table-bordered">
                    <thead>
                      <tr>
-                       <th scope="col">#</th>
                        <th scope="col">Item</th>
                        <th scope="col">Title</th>
                        <th scope="col">Price</th>
@@ -30,14 +28,12 @@
                    </thead>
                    <tbody>
                      <tr th:each="item : ${session.cart}">
-                       <th scope="row">1</th>
                        <td>
                            <img th:src="${item.food.image}" height="50" width="50" alt="" />
                        </td>
                        <td th:text="${item.food.name}" />
                        <td th:text="${'$' + item.food.price}">@mdo</td>
                        <td>
-                         <!-- <div th:replace="fragments/IncDecCartHelper::inc-dec"></div> -->
                           <div class="d-flex align-items-center gap-2">
                             <form th:action="@{/quantity}" method="post">
                               <input type="hidden" name="foodId" th:value="${item.food.id}" />
@@ -92,7 +88,103 @@
               <a href="/orders/placeOrder" class="btn btn-danger">Proceed To Checkout</a>
             </div>
            </div>
-         </th:block>
+         </th:block> -->
+
+         <div th:if="${isEmpty}">No Cart Items</div>
+         <div th:unless="${isEmpty}" class="mx-10 mt-5">
+          <div class="font-bold text-2xl">Food Bag</div>
+          <div th:text="${#lists.size(session.cart)} + ' Items In Your Bag'"></div>
+
+          <div id="layout" class="grid md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-20 mt-5">
+            <div class="card bg-base-100 w-auto md:w-full shadow-xl">
+              <div class="card-body">
+                <div class="overflow-x-auto">
+                  <table class="table table-xs table-pin-rows table-pin-cols">
+                    <thead>
+                      <tr>
+                        <td>Product</td>
+                        <td>Price</td>
+                        <td class="ms-3">Quantity</td>
+                        <td>Total</td>
+                        <td>Options</td>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="item : ${session.cart}">
+                        <td class="flex gap-4">
+                          <div class="avatar">
+                            <div class="rounded w-24">
+                              <img th:src="${item.food.image}" />
+                            </div>
+                          </div>
+                          <div class="">
+                            <div th:text="${item.food.name}" class="font-bold text-lg" />
+                            <div th:text="${item.food.category}" class=" text-gray-400 mt-2" />
+                          </div>
+                        </td>
+                        <td th:text="${'$' + item.food.price}"></td>
+                        <td>
+                          <div class="flex items-center gap-2">
+                            <form th:action="@{/quantity}" method="post">
+                              <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                              <input type="hidden" name="opt" value="incr" />
+                              <button type="submit" class="btn btn-circle  btn-warning btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                </svg>
+                              </button>
+                            </form>
+                            <div class="text-xl font-bold" th:text="${item.quantity}">0</div>
+                            <form th:action="@{/quantity}" method="post">
+                              <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                                <input type="hidden" name="opt" value="decr" />
+                                <button type="submit" class="btn btn-circle btn-sm btn-error">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
+                                  </svg>
+                                </button>
+                            </form>
+                          </div>
+                        </td>
+                        <td th:text="${'$' + item.totalAmount}" />
+                        <td>
+                          <form th:action="@{/removeItem}" method="post">
+                            <input type="hidden" name="foodId" th:value="${item.food.id}" />
+                            <button type="submit" class="btn btn-error btn-sm rounded-sm">Delete</button>
+                          </form>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div th:with="price=${@cartHelper.getTotalPrice()}">
+              <div class="card bg-base-100 w-auto md:w-full shadow-xl">
+                <div class="card-body space-y-2">
+                  <div class="font-bold text-2xl">Cart Total</div>
+                  <hr>
+                  <div class="flex justify-between items-center">
+                    <div>Subtotal</div>
+                    <div th:text="'$' + ${price}" />
+                  </div>
+                  <div  class="flex justify-between items-center">
+                    <div>Delivery Fee</div>
+                    <div>$5</div>
+                  </div>
+                  <div  class="flex justify-between items-center">
+                    <div>Total</div>
+                    <div th:text=" '$' + ${price + 5}" />
+                  </div>
+                  <div class="flex items-center justify-end mt-5">
+                    <a th:href="@{/orders/placeOrder}" class="btn bg-black text-white font-bold text-xl">Checkout</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         </div>
     </div>
     <script></script>
 </body>

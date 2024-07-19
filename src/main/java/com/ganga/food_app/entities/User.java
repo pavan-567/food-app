@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -61,7 +63,7 @@ public class User implements Serializable, UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    private Set<Role> roles = null;
 
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
@@ -91,6 +93,7 @@ public class User implements Serializable, UserDetails {
         this.email = email;
         this.password = password;
     }
+    
 
     public UUID getId() {
         return id;
@@ -141,11 +144,12 @@ public class User implements Serializable, UserDetails {
         this.updatedAt = updatedAt;
     }
 
-    public List<Role> getRoles() {
+
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -168,7 +172,7 @@ public class User implements Serializable, UserDetails {
     // Helper Methods
     public void addRole(Role role) {
         if (roles == null)
-            roles = new ArrayList<>();
+            roles = new HashSet<>();
         roles.add(role);
     }
 
@@ -180,7 +184,7 @@ public class User implements Serializable, UserDetails {
     }
 
     public void addOrder(Orders order) {
-        if(orders == null) 
+        if(orders == null)
             orders = new ArrayList<>();
         orders.add(order);
         order.setUser(this);
@@ -197,6 +201,7 @@ public class User implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        Collection<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).toList();
+       System.out.println("Authorities : " + authorities);
        return authorities;
     }
 
@@ -224,5 +229,12 @@ public class User implements Serializable, UserDetails {
     public boolean isEnabled() {
         return this.enabled == 1 ? true : false;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", enabled="
+                + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+    }
+
 
 }

@@ -66,7 +66,7 @@ public class AdminController {
             @RequestParam("description") String description, @RequestParam("category") String category,
             @RequestParam("price") int price) throws IOException {
                 
-        File file = new ClassPathResource("static/images/items").getFile();
+        File file = new File("G:\\Coding\\Gangadhar\\Projects\\Java\\Food_Delivery\\food-app\\src\\main\\resources\\static\\images\\items");
         String newName = "food_" + UUID.randomUUID() + ".png";
         Path path = Paths.get(file.getAbsolutePath() + File.separator + newName);
 
@@ -81,8 +81,8 @@ public class AdminController {
         List<Orders> allOrders = ordersService.getAllOrders();
         List<String> orderNames = allOrders.stream()
                 .map(order -> order.getCartItems().stream()
-                        .map(item -> item.getFood().getName() + " * " + item.getQuantity() + " ")
-                        .collect(Collectors.joining(",")))
+                        .map(item -> item.getFood().getName() + " x " + item.getQuantity() + " ")
+                        .collect(Collectors.joining(", ")))
                 .collect(Collectors.toList());
         model.addAttribute("orders", allOrders);
         model.addAttribute("orderNames", orderNames);

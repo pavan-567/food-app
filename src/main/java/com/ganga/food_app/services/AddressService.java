@@ -12,4 +12,5 @@ public interface AddressService {
     List<Address> getUserAddresses(User user);
     Address getAddress(UUID id);
     void removeAddress(UUID id);
+    Address isAddressInUse(UUID addressId);
 }

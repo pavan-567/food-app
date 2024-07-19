@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,6 +34,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.formLogin(customizer -> {
+            customizer.loginPage("/auth/login");
+            customizer.loginProcessingUrl("/authenticate");
+            // customizer.successForwardUrl("/user/dashboard");
+            // customizer.failureForwardUrl("/auth/login?error=true");
+            customizer.usernameParameter("email");
+            customizer.passwordParameter("password");
+        });
+
+        http.authenticationProvider(authenticationProvider());
+
+        http.logout(logouter -> {
+            logouter.logoutUrl("/logout");
+            logouter.logoutSuccessUrl("/auth/login?logout=true");
+            logouter.invalidateHttpSession(true);
+            logouter.deleteCookies("JSESSIONID");
+        });
+
+
         http.authorizeHttpRequests(configurer -> {
             configurer.requestMatchers("/user/**").authenticated();
             configurer.requestMatchers("/orders/**").authenticated();
@@ -43,20 +64,6 @@ public class SecurityConfig {
         });
 
         http.csrf(AbstractHttpConfigurer::disable);
-
-        http.formLogin(customizer -> {
-            customizer.loginPage("/auth/login");
-            customizer.loginProcessingUrl("/authenticate");
-            // customizer.successForwardUrl("/user/dashboard");
-            // customizer.failureForwardUrl("/auth/login?error=true");
-            customizer.usernameParameter("email");
-            customizer.passwordParameter("password");
-        });
-        
-        http.logout(logouter -> {
-            logouter.logoutUrl("/logout");
-            logouter.logoutSuccessUrl("/auth/login?logout=true");
-        });
         return http.build();
     }
 }

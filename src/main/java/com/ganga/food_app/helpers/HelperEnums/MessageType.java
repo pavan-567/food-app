@@ -3,7 +3,7 @@ package com.ganga.food_app.helpers.HelperEnums;
 public enum MessageType {
     SUCCESS("success"),
     PRIMARY("primary"),
-    DANGER("danger"),
+    DANGER("error"),
     WARNING("warning");
 
     String color;

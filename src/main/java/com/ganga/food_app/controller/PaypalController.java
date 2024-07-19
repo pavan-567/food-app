@@ -74,7 +74,6 @@ public class PaypalController {
 
         UUID addressId = (UUID) session.getAttribute("address");
         List<CartInput> cartInputs = (List<CartInput>) session.getAttribute("cart");
-        System.out.println("CART INTP : " + cartInputs);
 
         User user = (User) model.getAttribute("loggedUser");
         try {

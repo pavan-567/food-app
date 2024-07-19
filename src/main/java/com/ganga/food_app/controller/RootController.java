@@ -20,7 +20,6 @@ public class RootController {
         User u = null;
         if (principal != null) {
             String email = principal.getName();
-            System.out.println(email);
             u = userService.getUserByEmail(email).orElse(null);
         }
         model.addAttribute("loggedUser", u);

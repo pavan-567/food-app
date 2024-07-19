@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment= "nav">
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment= "nav">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,14 +12,8 @@
           <li class="nav-item" th:if="${loggedUser}">
             <a class="nav-link" href="/orders">Your Orders</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li>
         </ul>
-        <div class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto d-flex align-items-center">
           <li class="nav-item">
             <a class="nav-link" href="/cart">Cart 
               <th:block th:if="${session.cart == null || #lists.size(session.cart) == 0}">
@@ -42,7 +36,8 @@
             <li class="nav-item">
               <a href="/profile" class="nav-link">
                 <img th:src="${loggedUser.userProfile.image}" height="30" width="30" alt="" class="object-fit-cover rounded" />
-                <span class="fw-bold" th:text="${loggedUser.name}"></span></a>
+                <span class="fw-bold" th:text="${loggedUser.name}"></span>
+              </a>
             </li>
             <li class="nav-item">
               <a href="/logout" class="nav-link">Logout</a>
@@ -52,4 +47,173 @@
 
       </div>
     </div>
-  </nav>
+  </nav> -->
+
+  <!-- <div class="navbar bg-base-100" th:fragment="nav">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl">Gang Foods</a>
+    </div>
+    <div class="flex-none">
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span class="badge badge-sm indicator-item" th:if="${session.cart == null || #lists.size(session.cart) == 0}">0</span>
+            <span class="badge badge-sm indicator-item" th:unless="${session.cart == null || #lists.size(session.cart) == 0}" th:text="${#lists.size(session.cart)}">
+            </span>
+          </div>
+        </div>
+        <div
+          tabindex="0"
+          class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
+          <div class="card-body">
+            <span class="text-lg font-bold" th:if="${session.cart == null}">0 Items</span>
+            <span class="text-lg font-bold" th:unless="${session.cart == null}" th:text="${#lists.size(session.cart)} + ' Item\'s'" />
+            <span class="text-info" th:unless="${session.cart == null}" th:text="'Subtotal: $'">Subtotal: $999</span>
+            <div class="card-actions">
+              <button class="btn btn-primary btn-block">View cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown dropdown-end" th:if="${loggedUser}">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+               <img th:src="${loggedUser.userProfile.image}" alt="" />
+          </div>
+        </div>
+        <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <li>
+            <a class="justify-between">
+              Profile
+              <span class="badge">New</span>
+            </a>
+          </li>
+          <li><a>Settings</a></li>
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
+      <div class="flex-none" th:unless="${loggedUser}">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="/auth/login">Login</a></li>
+          <li><a href="/auth/register">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="navbar bg-base-100 border" th:fragment="nav">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </div>
+        <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <li><a th:href="@{/items}">Home</a></li>
+          <li th:if="${loggedUser}"><a th:href="@{/orders}">Your Orders</a></li>
+          <li><a>Item 3</a></li>
+        </ul>
+      </div>
+      <a class="btn btn-ghost text-xl">Ganga's Mart</a>
+    </div>
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a th:href="@{/items}">Home</a></li>
+        <li th:if="${loggedUser}"><a th:href="@{/orders}">Your Orders</a></li>
+      </ul>
+    </div>
+    <div class="navbar-end">
+      <div class="dropdown dropdown-end">
+        <th:block th:with="totItms=${@cartHelper.getAllItemQuantities()}">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span class="badge badge-sm indicator-item" th:if="${session.cart == null || #lists.size(session.cart) == 0}">0</span>
+              <span class="badge badge-sm indicator-item" th:unless="${session.cart == null || #lists.size(session.cart) == 0}" th:text="${totItms}">
+              </span>
+            </div>
+          </div>
+          <div
+            tabindex="0"
+            class="card card-compact dropdown-content bg-base-100 z-[2] mt-3 w-52 shadow">
+            <div class="card-body">
+              <span class="text-lg font-bold" th:if="${session.cart == null}">0 Items</span>
+              <span class="text-lg font-bold" th:unless="${session.cart == null}" th:text="${totItms} + ' Item\'s'" />
+              <th:block th:unless="${@cartHelper.isCartEmpty()}">
+                <span class="text-info" th:unless="${session.cart == null}" th:text="'Subtotal: $' + ${@cartHelper.getTotalPrice()}">Subtotal: $999</span>
+              </th:block>
+              <div class="card-actions">
+                <a class="btn btn-primary btn-block btn-sm" th:href="@{/cart}">View cart</a>
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+      <div class="dropdown dropdown-end" th:if="${loggedUser}">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+               <img th:src="${loggedUser.userProfile.image}" alt="" />
+          </div>
+        </div>
+        <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <li>
+            <a class="justify-between" th:href="@{/profile}">
+              Profile
+              <span class="badge">New</span>
+            </a>
+          </li>
+          <li><a>Settings</a></li>
+          <li th:if="${@userHelper.isAdmin(loggedUser)}"><a th:href="@{/admin}">Admin</a></li>
+
+          <li>
+            <a th:href="@{/logout}">Logout</a>
+          </li>
+        </ul>
+      </div>
+      <div class="flex-none" th:unless="${loggedUser}">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="/auth/login">Login</a></li>
+          <li><a href="/auth/register">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>

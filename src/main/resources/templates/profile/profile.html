@@ -11,14 +11,14 @@
     <title>Profile</title>
   </head>
   <body>
-    <div class="container">
-        <div class="card mt-5">
+    <div class="container mx-auto">
+        <!-- <div class="card mt-5">
             <div class="card-header text-center fw-bold fs-3">User Profile</div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-4">
                         <form th:action="@{/profile/updateDP}" method="post" id="dp" enctype="multipart/form-data">
-                            <!-- Avatar -->
+
                              <label for="fileUpload" class="form-label">
                                  <img th:src="${loggedUser.userProfile.image}" alt="" id="imageToClick" class="img-thumbnail rounded mx-auto d-block" height="300" width="300" />
                              </label>
@@ -26,7 +26,6 @@
                         </form>
                     </div>
                     <div class="col-sm-8">
-                        <!-- Details -->
                          <h1 th:text="${loggedUser.name}" class="text-center"></h1>
                          <hr>
                          <table class="table table-striped table-bordered table-hover table-responsive">
@@ -68,6 +67,82 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div th:replace="fragments/message::message"></div>
+        <div class="flex items-center justify-center mt-5">
+            <div class="card card-compact bg-base-100 w-96 shadow-xl my-10 relative">
+                <figure>
+                    <form th:action="@{/profile/updateDP}" method="post" id="dp" enctype="multipart/form-data">
+                        <label for="fileUpload" class="label">
+                            <img th:src="${loggedUser.userProfile.image}" id="imageToClick" class="rounded-full w-48 h-48 object-cover shadow-md" alt="">
+                        </label>
+                        <input type="file" name="image" id="fileUpload" accept="image/*" style="display: none;" class="form-control" onchange="submitForm()" />
+                    </form>
+                </figure>
+                <div class="card-body">
+                   <div th:text="${loggedUser.userProfile.firstName} + ' ' + ${loggedUser.userProfile.lastName}" class="font-semibold text-2xl text-center"></div>
+                   <div th:text="${loggedUser.name}" class="text-center"></div>
+                   <th:block th:each="role: ${loggedUser.roles}">
+                       <span th:if="${#strings.equals(role.role, 'ROLE_ADMIN')}" th:text="'Admin'" class="text-center font-semibold text-md absolute top-1 right-1 bg-purple-600 p-1 text-white rounded-lg"></span>
+                   </th:block>
+                   <div th:text="'User Since - ' + ${#temporals.format(loggedUser.createdAt, 'dd-MM-yyyy')}" class="italic text-center"></div>
+                   <button class="btn btn-secondary btn-sm" onclick="my_modal_1.showModal()">More Details</button>
+                    <dialog id="my_modal_1" class="modal">
+                    <div class="modal-box">
+                        <h3 class="text-lg font-bold">User Information</h3>
+                        <hr>
+                        <div class="py-4">
+                            <!--  -->
+                            <div class="overflow-x-auto">
+                                <table class="table">
+                                  <tbody>
+                                    <tr class="hover">
+                                      <th>First Name</th>
+                                      <td th:text="${loggedUser.userProfile.firstName}" />
+                                    </tr>
+                                    <tr class="hover">
+                                        <th th:text="'Last Name'" />
+                                        <td th:text="${loggedUser.userProfile.lastName}" />
+                                    </tr>
+                                    <tr class="hover">
+                                        <th>Email</th>
+                                        <td th:text="${loggedUser.email}"></td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <th>Gender</th>
+                                        <td th:text="${loggedUser.userProfile.gender}"></td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <th>Phone Number</th>
+                                        <td th:text="${loggedUser.userProfile.phoneNumber}"></td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <th>Your Orders</th>
+                                        <td>
+                                            <a href="/orders">Click Here</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <th>Your Addresses</th>
+                                        <td>
+                                            <a href="/address">Click Here</a>
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            <!--  -->
+                        </div>
+                        <div class="modal-action">
+                        <form method="dialog">
+                            <!-- if there is a button in form, it will close the modal -->
+                            <button class="btn">Close</button>
+                        </form>
+                        </div>
+                    </div>
+                    </dialog>
+                </div>
+              </div>
         </div>
     </div>
     <script>

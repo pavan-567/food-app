@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Items</title>
+  </head>
+  <body>
+    <div class="container mx-auto">
+      <div id="menu">
+        <div class="mb-5">
+          <h1>Menu</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse eligendi ducimus ea sed qui debitis saepe rerum incidunt, blanditiis nobis dicta ipsa, ratione adipisci maxime praesentium voluptates, provident laboriosam molestias!</p>
+        </div>
+        <div class="card-body flex flex-row gap-5">
+          <button class="btn btn-md rounded-md main-btn">All</button>
+          <div th:each=" i: ${#numbers.sequence(1, 8)}" class="flex gap-4">
+            <button class="btn btn-md rounded-md flex-nowrap menu-btn">
+              <img
+                th:src="'/images/menu/menu_' + ${i} + '.png'"
+                alt=""
+                style="cursor: pointer;"
+                width="30"
+                height="20"
+                class="inline-block align-middle"
+              />
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <h1 class="my-3">Top Dishes Near You</h1>
+      <div id="items" class="m-10">
+        <!-- <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+          <div class="" th:each="item : ${foodItems}">
+            <th:block th:with="hasItem=${@cartHelper.isItemInCart(item)}">
+              <div class="card mt-3" style="width: 24rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; border: none;">
+                <div class="position-relative">
+                  <img th:src="${item.image}" class="card-img-top" alt="..." />
+                  <div th:if="${hasItem}" class="position-absolute d-flex align-items-center gap-2" style="bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.2); padding: 5px;">
+                    <form th:action="@{/quantity}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <input type="hidden" name="opt" value="incr" />
+                      <button type="submit" class="btn btn-warning btn-sm"> + </button>
+                    </form>
+                    <span th:text="${@cartHelper.getItemQuantity(item)}" />
+                    <form th:action="@{/quantity}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <input type="hidden" name="opt" value="decr" />
+                      <button type="submit" class="btn btn-danger btn-sm"> - </button>
+                    </form>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-between"> 
+                    <div class="fs-5 fw-bold" th:text="${item.name}" />
+                    <div>
+                      <img src="/images/icons/rating_starts.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="card-text">
+                    <p th:text="${item.description}"></p>
+                  </div>
+                  <div th:text="'$' + ${item.price}" class="fw-bold fs-3 mb-2" style="color: orangered;" />
+                   <div class="d-flex align-items-center gap-3">
+                    <form th:action="@{/add-to-cart}" method="post">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <th:block th:if="${hasItem}">
+                        <a href="/cart" class="btn btn-danger btn-sm">Go To Cart</a>
+                      </th:block>
+                      <th:block th:unless="${hasItem}">
+                        <button type="submit" class="btn btn-warning btn-sm">Add To Cart</button>
+                      </th:block>
+                     </form>
+
+                     <form th:action="@{/items/buyItem}" method="POST">
+                       <input type="hidden" name="foodId" th:value="${item.id}" />
+                       <button class="btn btn-success btn-sm">Buy Now</button>
+                     </form>
+                   </div>
+                </div>
+              </div>
+            </th:block>
+          </div>
+        </div> -->
+        <div class="grid grid-cols-1 gap-20 md:grid-cols-2 xl:grid-cols-3 place-items-center">
+          <div class="card bg-base-100 w-96 shadow-xl" th:each="item : ${foodItems}">
+            <th:block th:with="hasItem=${@cartHelper.isItemInCart(item)}">
+              <figure class="relative">
+                <img
+                  th:src="${item.image}"
+                  alt="Shoes" class="object-cover w-full" />
+                <div th:if="${hasItem}" class="absolute bottom-0 right-0 flex items-center gap-2 mb-2 me-2">
+                  <form th:action="@{/quantity}" method="post">
+                    <input type="hidden" name="foodId" th:value="${item.id}" />
+                    <input type="hidden" name="opt" value="incr" />
+                    <button type="submit" class="btn btn-circle btn-sm btn-warning">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                      </svg>
+                    </button>
+                  </form>
+                  <div class="text-2xl font-bold" th:text="${@cartHelper.getItemQuantity(item)}">0</div>
+                  <form th:action="@{/quantity}" method="post">
+                    <input type="hidden" name="foodId" th:value="${item.id}" />
+                      <input type="hidden" name="opt" value="decr" />
+                      <button type="submit" class="btn btn-circle btn-sm btn-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
+                        </svg>
+                      </button>
+                  </form>
+                </div>
+              </figure>
+              <div class="card-body">
+                <div class="flex items-center justify-between">
+                  <h2 class="card-title" th:text="${item.name}"></h2>
+                  <img src="/images/icons/rating_starts.png" alt="" />
+                </div>
+                <p th:text="${item.description}"></p>
+                <div th:text="'$' + ${item.price}" class="text-2xl font-bold text-orange-600" />
+                <div class="card-actions justify-end">
+                  <form th:action="@{/add-to-cart}" method="post">
+                    <input type="hidden" name="foodId" th:value="${item.id}" />
+                    <th:block th:if="${hasItem}">
+                      <a href="/cart" class="btn btn-warning btn-sm rounded-md">Go To Cart</a>
+                    </th:block>
+                    <th:block th:unless="${hasItem}">
+                      <button type="submit" class="btn btn-warning btn-sm rounded-md">Add To Cart</button>
+                    </th:block>
+                   </form>
+                   <form th:action="@{/items/buyItem}" method="POST">
+                      <input type="hidden" name="foodId" th:value="${item.id}" />
+                     <button type="submit" class="btn btn-success btn-sm rounded-md">Buy Now</button>
+                   </form>
+                </div>
+              </div>
+            </th:block>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      function menu(id) {
+        switch(id) {
+          case 1 : 
+            return "Salad";
+          case 2 : 
+            return "Rolls";
+          case 3 : 
+          return "Deserts"
+          case 4 : 
+            return "Sandwich"
+          case 5 : 
+            return "Cake";
+          case 6 : 
+          return  "Pure Veg";
+          case 7 : 
+            return "Pasta"
+          case 8 : 
+            return "Noodles";
+          default : 
+            console.log("Invalid")
+        }
+      }
+
+      let buttons = document.querySelectorAll("#menu .menu-btn");
+      const mainBtn = document.querySelector('.main-btn');
+
+      mainBtn.addEventListener('click', () => {
+        window.location.href = '/items';
+      })
+
+      buttons.forEach((btn, index) => {
+        let btnTxt = btn.children[1]; // Selecting span
+        btnTxt.innerText = menu(index + 1);
+
+        let url = new URL(window.location.href)
+
+        console.log(url.searchParams.has('category'))
+        if(!url.searchParams.has('category'))
+          mainBtn.classList.add('btn-success');
+
+        if(url.searchParams.has('category') && url.searchParams.get('category') == menu(index + 1))
+          btn.classList.add('btn-success');
+      
+
+        btn.addEventListener('click', e => {
+          if(url.searchParams.has('category') && url.searchParams.get('category') == menu(index + 1))
+            window.location.href = "/items"
+          else
+            window.location.href = `/items?category=${menu(index + 1)}`
+        })
+      })
+    </script>
+  </body>
+</html>

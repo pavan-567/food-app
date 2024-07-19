@@ -17,6 +17,10 @@ public class UserForm {
     @Size(min = 6, message = "Min 6 Characters are Required")
     private String password;
 
+    @NotBlank(message = "Passwords Not Matched")
+    @Size(min = 6, message = "Min 6 Characters Required")
+    private String confirmPassword;
+
     @NotBlank(message = "First Name Required")
     @Size(min = 3, message = "Min 3 Characters are Required")
     private String firstName;
@@ -66,6 +70,7 @@ public class UserForm {
 
     public void setPassword(String password) {
         this.password = password;
+        checkPassword();
     }
 
     public String getFirstName() {
@@ -91,8 +96,14 @@ public class UserForm {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
     
+    public void checkPassword() {
+        if(this.password == null || this.confirmPassword == null)
+            return;
+        else if(!this.password.equals(confirmPassword)) {
+            this.confirmPassword = null;
+        }
+    }
 
     @Override
     public String toString() {
@@ -106,6 +117,14 @@ public class UserForm {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
     
 }

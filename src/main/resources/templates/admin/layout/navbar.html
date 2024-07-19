@@ -1,8 +1,30 @@
-<nav class="navbar bg-body-tertiary">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035155.jpg?t=st=1720409499~exp=1720413099~hmac=ca9ef5857d2e5fe0b344867265376939cd272382f767da4a91c568051e93756e&w=1380" alt="Bootstrap" width="30" height="24">
-        Admin Panel
-      </a>
+<div class="navbar bg-base-100 border" th:fragment="nav">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">Admin Panel</a>
+  </div>
+  <div class="flex-none gap-2">
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            th:src="${loggedUser.userProfile.image}" />
+        </div>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li>
+          <a class="justify-between">
+            Profile
+            <span class="badge">New</span>
+          </a>
+        </li>
+        <li><a th:href="@{/}">Home</a></li>
+        <li> 
+          <a th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</div>

@@ -34,8 +34,8 @@ public class OrderController {
         List<Orders> orders = ordersService.getOrders(currUser);
         List<String> orderNames = orders.stream()
         .map(order -> order.getCartItems().stream()
-          .map(item -> item.getFood().getName() + " * " + item.getQuantity() + " ")
-          .collect(Collectors.joining(",")))
+          .map(item -> item.getFood().getName() + " x " + item.getQuantity() + " ")
+          .collect(Collectors.joining(", ")))
         .collect(Collectors.toList());
         
 

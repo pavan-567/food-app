@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
-  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
->
-  <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+    th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}">
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order</title>
-  </head>
-  <body>
-    <div class="container" th:object="${order}">
-        <h3>Order Details</h3>
+</head>
+
+<body>
+    <div class="container mx-auto" th:object="${order}">
+        <!-- <h3>Order Details</h3>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -25,13 +23,14 @@
                 </div>
                 <div class="row">
                     <div class="col">Order Total</div>
-                    <div class="col" th:text="'$' + *{amount} + ' (' + ${#lists.size(order.cartItems)} + ' Items)'"></div>
+                    <div class="col" th:text="'$' + *{amount} + ' (' + ${#lists.size(order.cartItems)} + ' Items)'">
+                    </div>
                 </div>
             </div>
         </div>
         <hr>
         <h3>Shipment Details</h3>
-        <div class="card mt-3">
+        <div class="card my-3">
             <div class="card-body">
                 <div class="row mb-3">
                     <h5 th:text="*{orderStatus}" />
@@ -39,7 +38,8 @@
                 <th:block th:with="items=${order.cartItems}">
                     <div class="row mb-3" th:each="item : ${items}">
                         <div class="col-2">
-                            <img th:src="${item.food.image}" class="img-thumbnail object-fit-cover" height="150" width="150" alt="" />
+                            <img th:src="${item.food.image}" class="img-thumbnail object-fit-cover" height="150"
+                                width="150" alt="" />
                         </div>
                         <div class="col-10">
                             <div th:text="${item.food.name}" class="fs-5 fw-bold" />
@@ -68,8 +68,72 @@
                 <div>Delivery Fee : $5</div>
                 <div th:text="'Total Amount : $' + ${order.amount}" />
             </div>
+        </div> -->
+
+        <div class="font-semibold text-2xl">Order Details</div>
+        <div class="flex justify-between">
+            <div th:text="'Ordered On : ' + *{orderCreated}"></div>
+            <div>Order # <span th:text="*{id}" class="uppercase"></span></div>
         </div>
+        <div class="card bg-base-100 w-auto shadow-xl my-10">
+            <div class="card-body">
+                <div class="flex justify-between">
+                    <div>
+                        <div class="font-bold text-lg">Shipping Address</div>
+                        <div th:text="${order.address.firstName} + ' ' + ${order.address.lastName}"
+                            class="fs-5 fw-bold" />
+                        <div th:text="${order.address.street}" />
+                        <div
+                            th:text="${order.address.city} + ' ' + ${order.address.state} + ' ' + ${order.address.zipCode}" />
+                        <div th:text="${order.address.country}"></div>
+                        <div th:text="${order.address.phoneNumber}" />
+                    </div>
+                    <div class="">
+                        <div class="font-bold text-lg">Payment Methods</div>
+                        <div>Paypal</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-lg">Order Summary</div>
+                        <div th:text="'Items Amount : $' + ${order.amount - 5}" />
+                        <div>Delivery Fee : $5</div>
+                        <div th:text="'Total Amount : $' + ${order.amount}" class="font-bold" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-base-100 w-auto shadow-xl my-10">
+            <div class="card-body">
+                <th:block th:switch="*{orderStatus}">
+                    <th:block th:case="'processing'">
+                       <div class="font-bold text-2xl my-3 text-yellow-500">Processing</div>
+                    </th:block>
+                    <th:block th:case="'delivery'">
+                        <div class="font-bold text-2xl my-3 text-orange-500">Out For Delivery</div>
+                    </th:block>
+                    <th:block th:case="'delivered'">
+                        <div class="font-bold text-2xl my-3 text-green-500">Delivered</div>
+                    </th:block>
+                </th:block>
+
+                <th:block th:with="items=${order.cartItems}">
+                    <div th:each="item : ${items}" class="mb-10">
+                        <div class="flex gap-3">
+                            <img th:src="${item.food.image}" alt="" class="h-40 w-40 object-cover shadow-xl rounded-md" />
+                            <div class="flex flex-col">
+                                <div th:text="${item.food.name}" class="text-xl font-bold" />
+                                <div th:text="'Quantity : ' + ${item.quantity}" />
+                                
+                                <div th:text="'Item Price : $' + ${item.food.price}" />
+
+                                <div th:text="'Total : $' + ${(item.food.price * item.quantity)}" class="font-bold mt-auto mb-2 text-xl" />
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+          </div>
     </div>
     <script></script>
-  </body>
+</body>
+
 </html>

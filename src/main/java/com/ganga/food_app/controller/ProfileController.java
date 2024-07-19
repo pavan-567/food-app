@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ganga.food_app.entities.User;
+import com.ganga.food_app.entities.UserProfile;
+import com.ganga.food_app.helpers.Message;
+import com.ganga.food_app.helpers.HelperEnums.MessageType;
 import com.ganga.food_app.services.ProfileService;
 import com.ganga.food_app.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/profile")
@@ -37,16 +43,26 @@ public class ProfileController {
     }
 
     @PostMapping("/updateDP")
-    public String updateProfilePicture(@RequestParam("image") MultipartFile imgFile, Model model) throws IOException {
-        File file = new ClassPathResource("static/images/profile/dp").getFile();
-        User u = (User) model.getAttribute("loggedUser");
-        String fileName = u.getName() + "_" + UUID.randomUUID() + ".png";
-        Path path = Paths.get(file.getAbsolutePath() + File.separator + fileName);
+    public String updateProfilePicture(@RequestParam("image") MultipartFile imgFile, Model model, HttpSession session)
+            throws IOException {
+        try {
+            File file = new File("G:\\Coding\\Gangadhar\\Projects\\Java\\Food_Delivery\\food-app\\src\\main\\resources\\static\\images\\profile\\dp");
+            User u = (User) model.getAttribute("loggedUser");
 
-        Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("HERE MATE!");
-        u.getUserProfile().setImage("/images/profile/dp/" + fileName);
-        userService.saveUser(u);
+            UserProfile up = u.getUserProfile();
+
+            String fileName = u.getName() + "_" + UUID.randomUUID() + ".png";
+            Path path = Paths.get(file.getAbsolutePath() + File.separator + fileName);
+
+            Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+
+            up.setImage("/images/profile/dp/" + fileName);
+            profileService.saveProfile(up);
+            session.setAttribute("message", new Message("DP Changed Successfully!", MessageType.SUCCESS));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/profile";
     }
 }

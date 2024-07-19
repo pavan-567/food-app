@@ -23,4 +23,10 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
     }
 
+    @Override
+    public void saveProfile(UserProfile profile) {
+        // TODO Auto-generated method stub
+        profileRepository.save(profile);
+    }
+
 }

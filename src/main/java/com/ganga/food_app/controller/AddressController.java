@@ -47,7 +47,6 @@ public class AddressController {
     @PostMapping("/create")
     public String createAddress(@Valid @ModelAttribute("address") Address address, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
-            System.out.println(result.getFieldErrors());
             return "addr/addrForm";
         }
 
@@ -64,8 +63,12 @@ public class AddressController {
 
     @PostMapping("/delete")
     public String deleteAddress(@RequestParam("addressId") UUID id, HttpSession session) {
-        addressService.removeAddress(id);
-        session.setAttribute("message", new Message("Address Deleted Successfully", MessageType.SUCCESS));
+        if(addressService.isAddressInUse(id) != null) {
+            session.setAttribute("message", new Message("This address is in use with atleast one of your Orders.. It Cannot Be Deleted..", MessageType.DANGER));
+        } else {
+            addressService.removeAddress(id);
+            session.setAttribute("message", new Message("Address Deleted Successfully", MessageType.SUCCESS));
+        }
         return "redirect:/address";
     }
 }

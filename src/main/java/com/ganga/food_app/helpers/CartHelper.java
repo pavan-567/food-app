@@ -42,8 +42,8 @@ public class CartHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("YAR EMPTY ? " + cartInputs);
-        if(cartInputs == null || cartInputs.size() == 0) return true;
+        if (cartInputs == null || cartInputs.size() == 0)
+            return true;
         return false;
     }
 
@@ -52,7 +52,7 @@ public class CartHelper {
 
         try {
             HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-            .getSession();
+                    .getSession();
             cartInputs = (List<CartInput>) session.getAttribute("cart");
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,21 +66,39 @@ public class CartHelper {
         return 0;
     }
 
-
     public int getTotalPrice() {
         List<CartInput> cartInputs = null;
         try {
             HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-            .getSession();
+                    .getSession();
             cartInputs = (List<CartInput>) session.getAttribute("cart");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         int total = 0;
-        if(cartInputs != null) {
-            for(var item: cartInputs) {
+        if (cartInputs != null) {
+            for (var item : cartInputs) {
                 total += item.getTotalAmount();
+            }
+        }
+        return total;
+    }
+
+    public int getAllItemQuantities() {
+        List<CartInput> cartInputs = null;
+        try {
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession();
+            cartInputs = (List<CartInput>) session.getAttribute("cart");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int total = 0;
+        if (cartInputs != null) {
+            for (var item : cartInputs) {
+                total += item.getQuantity();
             }
         }
         return total;

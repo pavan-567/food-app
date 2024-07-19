@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"   xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
-th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::script})}">
+th:replace="~{admin/layout/base::adminLayout(~{::div}, ~{::title}, ~{::script})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foods</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container mx-auto" style="width: 75rem;">
         <table class="table table-striped table-hover table-bordered">
             <thead>
                 <th>Image</th>

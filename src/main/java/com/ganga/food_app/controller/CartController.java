@@ -27,7 +27,7 @@ public class CartController {
     private FoodService foodService;
 
     @PostMapping("/add-to-cart")
-    public String addCart(@RequestParam("foodId") UUID id, HttpSession session) {
+    public String addCart(@RequestParam("foodId") UUID id, HttpSession session, HttpServletRequest request) {
 
         Food food = foodService.getFood(id);
         List<CartInput> cart = (List<CartInput>) session.getAttribute("cart");
@@ -51,7 +51,9 @@ public class CartController {
             cart.add(item);
         }
         session.setAttribute("cart", cart);
-        return "redirect:/items";
+
+        String referrer = request.getHeader("Referer");
+        return "redirect:" + (referrer != null ? referrer : "/");
     }
 
     @GetMapping("/cart")

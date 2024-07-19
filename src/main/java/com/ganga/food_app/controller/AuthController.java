@@ -16,6 +16,7 @@ import com.ganga.food_app.entities.UserProfile;
 import com.ganga.food_app.forms.UserForm;
 import com.ganga.food_app.helpers.Message;
 import com.ganga.food_app.helpers.HelperEnums.MessageType;
+import com.ganga.food_app.services.RoleService;
 import com.ganga.food_app.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,9 +29,11 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/login")
     public String login(@PathVariable(value= "error", required= false) String error) {
-        System.out.println(error);
         return "auth/login";
     }
 
@@ -57,8 +60,8 @@ public class AuthController {
                 userForm.getGender(),
                 userForm.getPhoneNumber());
 
-        Role r = new Role("ROLE_USER");
-        u.addRole(r);
+        u.addRole(roleService.getUserRole());
+        // u.addRole(roleService.getAdminRole());
 
         up.setUser(u); // Important To Set
         u.setUserProfile(up);

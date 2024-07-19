@@ -11,25 +11,26 @@
     <title>Order</title>
   </head>
   <body>
-    <div class="container">
-      <form th:action="@{/payment/create}" method="post">
+    <div class="container mx-auto h-full mx-10">
+      <!-- <form th:action="@{/payment/create}" method="post">
         <th:block th:with="isEmpty=${@cartHelper.isCartEmpty()}">
             <div th:if="${isEmpty}">
                 Add Items To The Cart To Proceed Further
             </div>
             <th:block th:unless="${isEmpty}" th:with="price=${@cartHelper.getTotalPrice()}">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 my-3">
+                        <h3 class="ms-5">Select an Address</h3>
                         <div th:if="${#lists.isEmpty(address)}">
                             <p>No Addresses</p>
                         </div>
                         <div th:each="addr : ${address}">
-                          <div class="form-check">
+                          <div class="form-check d-flex align-items-center gap-3 my-3">
                             <input class="form-check-input" type="radio" name="address" th:value="${addr.id}" id="flexRadioDefault1" required />
                             <div class="form-check-label" for="flexRadioDefault1">
                               <div class="card">
-                                <div class="card-body">
-                                  <h3 th:text="${addr.user.name}"></h3>
+                                <div class="card-body p-4">
+                                  <h3 th:text="${addr.firstName} + ' ' + ${addr.lastName}"></h3>
                                   <p th:text="${addr.street} + ',' + ${addr.city} + ',' + ${addr.state}" />
                                   <p th:text="${addr.phoneNumber}" />
                                 </div>
@@ -39,8 +40,8 @@
                         </div>
                         <a href="/address/create" class="btn btn-danger btn-sm">Create</a>
                     </div>
-                    <div class="col-md-6">
-                              <h1>Cart Totals</h1>
+                    <div class="col-md-6 my-3">
+                              <h3>Cart Totals</h3>
                               <table class="table table-hover table-bordered">
                                 <tbody>
                                   <tr>
@@ -49,7 +50,7 @@
                                   </tr>
                                   <tr>
                                     <td>Delivery Fee</td>
-                                    <td>5</td>
+                                    <td>$5</td>
                                   </tr>
                                   <tr>
                                     <th>Total</th>
@@ -68,7 +69,69 @@
                 </div>
             </th:block>
         </th:block>
-      </form>
+      </form> -->
+      <th:block th:with="isEmpty=${@cartHelper.isCartEmpty()}">
+        <div th:if="${isEmpty}">
+          Add Items To The Cart To Proceed Further
+        </div>
+
+        <form th:action="@{/payment/create}" method="POST" th:unless="${isEmpty}" th:with="price=${@cartHelper.getTotalPrice()}">
+          <div class="grid grid-cols-2 gap-x-10">
+            <div>
+              <div class="card bg-base-100 w-full shadow-xl">
+                <div class="card-body space-y-3">
+                  <div class="flex items-center justify-between">
+                    <h2 class="font-bold text-2xl">Select Address</h2>
+                    <a th:href="@{/address/create}" class="btn btn-sm bg-black text-white rounded-lg">Create Address</a>
+                  </div>
+                  <hr>
+                  <div th:if="${#lists.isEmpty(address)}" th:text="'No Addresses'"></div>
+
+                  <div th:each="addr : ${address}">
+                    <div class="flex gap-5">
+                      <input type="radio" name="address" th:value="${addr.id}" required />
+                      <div>
+                        <div class="font-bold text-xl" th:text="${addr.firstName} + ' ' + ${addr.lastName}" />
+                        <p th:text="${addr.street} + ',' +  ${addr.city} + ',' + ${addr.state}"></p>
+                        <p th:text="${addr.phoneNumber}"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div th:with="price=${@cartHelper.getTotalPrice()}">
+                <div class="card bg-base-100 w-auto md:w-full shadow-xl">
+                  <div class="card-body space-y-2">
+                    <div class="font-bold text-2xl">Cart Total</div>
+                    <hr>
+                    <div class="flex justify-between items-center">
+                      <div>Subtotal</div>
+                      <div th:text="'$' + ${price}" />
+                    </div>
+                    <div  class="flex justify-between items-center">
+                      <div>Delivery Fee</div>
+                      <div>$5</div>
+                    </div>
+                    <div  class="flex justify-between items-center">
+                      <div>Total</div>
+                      <div th:text=" '$' + ${price + 5}" />
+                    </div>
+                    <div class="flex items-center justify-end mt-5">
+                        <input type="hidden" name="method" value="paypal" />
+                        <input type="hidden" name="amount" th:value="${price}" />
+                        <input type="hidden" name="currency" value="USD" />
+                        <input type="hidden" name="description" value="This Is Paypal" />
+                        <button type="submit" class="btn bg-black text-white font-bold text-xl" th:unless="${#lists.isEmpty(address)}">Proceed To Payment</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </th:block>
     </div>
     <script></script>
   </body>
