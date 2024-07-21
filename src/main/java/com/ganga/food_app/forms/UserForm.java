@@ -36,17 +36,53 @@ public class UserForm {
     @NotBlank(message = "Gender Required")
     private String gender;
 
+    @NotBlank(message = "State Required")
+    private String state;
+
+    @NotBlank(message = "City Required")
+    private String city;
+
+    @NotBlank(message = "Country Required")
+    private String country;
+
     public UserForm(String username, String email, String gender, String password, String firstName, String lastName,
-            String phoneNumber) {
+            String phoneNumber, String state, String city, String country) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.state = state;
+        this.city = city;
+        this.country = country;
     }
 
     public UserForm() {}
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getUsername() {
         return username;

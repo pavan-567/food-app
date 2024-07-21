@@ -22,8 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ganga.food_app.entities.Food;
 import com.ganga.food_app.entities.Orders;
+import com.ganga.food_app.entities.User;
+import com.ganga.food_app.repositories.RoleRepository;
 import com.ganga.food_app.services.FoodService;
 import com.ganga.food_app.services.OrdersService;
+import com.ganga.food_app.services.UserService;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +38,12 @@ public class AdminController {
 
     @Autowired
     private OrdersService ordersService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping
     public String home() {
@@ -84,8 +93,11 @@ public class AdminController {
                         .map(item -> item.getFood().getName() + " x " + item.getQuantity() + " ")
                         .collect(Collectors.joining(", ")))
                 .collect(Collectors.toList());
+
+        List<User> agents = userService.getAllUsers().stream().filter(user -> user.getRoles().contains(roleRepository.getDeliveryRole())).toList();
         model.addAttribute("orders", allOrders);
         model.addAttribute("orderNames", orderNames);
+        model.addAttribute("deliveryAgents", agents);
         return "/admin/orders";
     }
 

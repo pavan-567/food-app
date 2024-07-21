@@ -12,10 +12,10 @@
   </head>
   <body>
     <div class="container mx-auto">
-        <div th:replace="fragments/message::message"></div>
-        <h1 class="text-3xl font-bold mb-5">Your Orders</h1>
-        <hr>
-        <div th:if="${#lists.size(orders) == 0}">
+        <div th:replace="~{fragments/message::message}"></div>
+        <h1 class="text-3xl font-bold mb-5 mx-10 my-3">Your Orders</h1>
+        <hr class="my-3 mx-10">
+        <div th:if="${#lists.size(orders) == 0}" class="my-3 mx-10">
             No Orders
          </div>
          <div th:each="order, stat : ${orders}">
@@ -48,6 +48,9 @@
                   <div th:text="${orderNames[stat.index]}" class="font-semibold text-violet-600" />
                   <div class="flex gap-3">
                     <img th:each="cartItem : ${order.cartItems}" class="shadow-lg border border-gray-400 rounded-md w-12 h-12 object-cover" th:src="${cartItem.food.image}" alt="" />
+                  </div>
+                  <div th:if="${order.deliveryAgent}">
+                      Delivery Agent : <span th:text="${order.deliveryAgent.name}" class="font-bold"></span>
                   </div>
                   <div>
                     <a th:href="@{/orders/{id} (id=${order.id})}" class="btn btn-warning btn-sm mt-3">More Details</a>
@@ -82,6 +85,6 @@
               </div>
         </div> -->
     </div>
-    <script>Hi</script>
+    <script></script>
   </body>
 </html>

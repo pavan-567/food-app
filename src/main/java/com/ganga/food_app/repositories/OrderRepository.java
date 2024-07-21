@@ -12,4 +12,5 @@ import com.ganga.food_app.entities.User;
 public interface OrderRepository extends JpaRepository<Orders, UUID> {
     List<Orders> findByUser(User user);
     Optional<Orders> findById(UUID id);
+    List<Orders> findByDeliveryAgent(User deliveryAgent);
 }

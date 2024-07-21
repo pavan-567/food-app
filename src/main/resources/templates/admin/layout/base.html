@@ -14,5 +14,25 @@
     </div>
     <!-- <script th:src="@{/js/script.js}"></script> -->
      <script th:replace="${script}"></script>
+     <script>
+      console.log(window.location.href);
+      const sidebar = document.getElementById("sidebar");
+      const childDivs = sidebar.children[0]
+      let includes = false;
+      for(let child of childDivs.children) {
+        if(window.location.href.includes(child.id) && child.id !== '') {
+          child.classList.add('bg-gray-200');
+          child.classList.add('rounded-md');
+          includes = true;
+          break;
+        }
+      }
+
+      if(!includes) {
+        childDivs.children[0].classList.add('bg-gray-200');
+        childDivs.children[0].classList.add('rounded-md');
+      }
+
+     </script>
   </body>
 </html>

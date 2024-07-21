@@ -9,7 +9,7 @@ th:replace="~{admin/layout/base::adminLayout(~{::div}, ~{::title}, ~{::script})}
 </head>
 <body>
     <div class="container mx-auto" style="width: 75rem;">
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table table-striped table-hover table-bordered m-10 border">
             <thead>
                 <th>Image</th>
                 <th>
@@ -23,7 +23,7 @@ th:replace="~{admin/layout/base::adminLayout(~{::div}, ~{::title}, ~{::script})}
             <tbody>
                 <tr th:each="food : ${foods}">
                     <td>
-                        <img th:src="${food.image}" height="50" width="50" alt="" />
+                        <img th:src="${food.image}" height="50" width="50" alt="" class="rounded-md shadow-xl" />
                     </td>
                     <td th:text="${food.name}"></td>
                     <td th:text="${food.category}"></td>
@@ -31,7 +31,7 @@ th:replace="~{admin/layout/base::adminLayout(~{::div}, ~{::title}, ~{::script})}
                     <td>
                         <form th:action="@{/admin/removeItem}" method="post">
                             <input type="hidden" name="foodId" th:value="${food.id}" />
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-info btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>

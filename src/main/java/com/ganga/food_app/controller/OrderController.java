@@ -51,16 +51,16 @@ public class OrderController {
         return "orders/order";
     }
 
-    @PostMapping("/create")
-    public String placeOrder() {
-        return "redirect:/items";
-    }
-
     @GetMapping("/placeOrder")
     public String order(Model model) {
         User user = (User) model.getAttribute("loggedUser");
         List<Address> addresses = addressService.getUserAddresses(user);
         model.addAttribute("address", addresses);
         return "orders/placeOrder";
+    }
+
+    @PostMapping("/placeOrder")
+    public String placeOrder() {
+        return "redirect:/orders";
     }
 }

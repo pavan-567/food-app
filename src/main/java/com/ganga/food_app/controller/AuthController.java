@@ -19,6 +19,7 @@ import com.ganga.food_app.helpers.HelperEnums.MessageType;
 import com.ganga.food_app.services.RoleService;
 import com.ganga.food_app.services.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -46,9 +47,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, HttpSession session) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
         if (bindingResult.hasErrors())
             return "auth/register";
+
+
+        String deliveryResult = request.getParameter("delivery");
+        boolean isDelivery = deliveryResult == null ? false : true;
 
         User u = new User(userForm.getUsername(),
                 userForm.getEmail(),
@@ -58,10 +63,17 @@ public class AuthController {
                 userForm.getFirstName(),
                 userForm.getLastName(),
                 userForm.getGender(),
-                userForm.getPhoneNumber());
+                userForm.getPhoneNumber(),
+                userForm.getCity(),
+                userForm.getState(),
+                userForm.getCountry());
 
-        u.addRole(roleService.getUserRole());
-        // u.addRole(roleService.getAdminRole());
+        if(isDelivery) {
+            u.addRole(roleService.getDeliveryRole());
+        } else { 
+            u.addRole(roleService.getUserRole());
+        }
+        
 
         up.setUser(u); // Important To Set
         u.setUserProfile(up);

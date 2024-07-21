@@ -14,4 +14,7 @@ public interface RoleRepository extends JpaRepository<Role, UUID> {
 
     @Query("SELECT r FROM Role r WHERE r.role = 'ROLE_ADMIN'")
     Role getAdminRole();
+
+    @Query("SELECT r FROM Role r WHERE r.role = 'ROLE_DELIVERY'")
+    Role getDeliveryRole();
 }

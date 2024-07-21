@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+    th:replace="~{agent/layout/base::agentLayout(~{::.container}, ~{::title}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+
+<body>
+    <div class="container mx-auto my-10">
+        <div class="mx-16">
+            <div class="text-2xl font-bold">Orders To Work With</div>
+            <hr class="my-2">
+            <div th:if="${#lists.size(agentOrders) == 0}">
+                <span>No Orders</span>
+            </div>
+            <div th:unless="${#lists.size(agentOrders) == 0}" class="card bg-base-100 w-auto shadow-xl" th:each="order, stat : ${agentOrders}">
+                <div class="card-body">
+                    <div class="flex justify-between items-center">
+                        <div class="text-2xl">Order #<span th:text="${order.id}" class="uppercase font-bold"></span></div>
+                        <div class="text-xl flex items-center gap-3">
+                            <th:block th:switch="${order.orderStatus}">
+                                <th:block th:case="'processing'">
+                                    <span class="text-rose-600 font-bold">
+                                        Processing
+                                    </span>
+                                </th:block>
+                                <th:block th:case="'delivery'">
+                                    <span class="font-bold text-orange-500">
+                                        Out For Delivery
+                                    </span>
+                                </th:block>
+                                <th:block th:case="'delivered'">
+                                    <span class="font-bold text-green-500">
+                                        Delivered
+                                    </span>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <hr class="my-2">
+
+                    <div class="space-y-4">
+                        <div>Ordered User : <span th:text="${order.user.name}" class="font-bold"></span></div>
+                        <div>Delivery Agent : <span th:text="${order.deliveryAgent.name}" class="italic font-semibold"></span></div>
+                        <div th:text="${orderNames[stat.index]}" class="font-semibold text-blue-700 text-lg"></div>
+                        <div id="images" class="flex gap-3 mt-2 flex-wrap">
+                            <img th:each="cartItem : ${order.cartItems}" class="shadow-lg rounded-md w-12 h-12 object-cover" th:src="${cartItem.food.image}" alt="" />
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <a th:href="@{/delivery/orders/{id}(id=${order.id})}" class="btn btn-sm btn-warning">Review Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script></script>
+</body>
+
+</html>

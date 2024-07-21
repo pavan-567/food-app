@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -53,13 +52,16 @@ public class SecurityConfig {
             logouter.deleteCookies("JSESSIONID");
         });
 
-
         http.authorizeHttpRequests(configurer -> {
-            configurer.requestMatchers("/user/**").authenticated();
-            configurer.requestMatchers("/orders/**").authenticated();
-            configurer.requestMatchers("/address/**").authenticated();
+            configurer.requestMatchers("/items").permitAll();
+            configurer.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
+            configurer.requestMatchers("/cart/**").hasAnyRole("USER", "ADMIN");
+            configurer.requestMatchers("/orders/**").hasAnyRole("USER", "ADMIN");
+            configurer.requestMatchers("/address/**").hasAnyRole("USER", "ADMIN");
             configurer.requestMatchers("/admin/**").hasRole("ADMIN");
             configurer.requestMatchers("/profile/**").authenticated();
+            configurer.requestMatchers("/delivery/assignAgent").hasRole("ADMIN");
+            configurer.requestMatchers("/delivery/**").hasRole("DELIVERY");
             configurer.anyRequest().permitAll();
         });
 

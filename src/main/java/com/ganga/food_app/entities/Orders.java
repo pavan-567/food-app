@@ -41,6 +41,9 @@ public class Orders {
     @Column(name = "payment_id")
     private String paymentID;
 
+    @Column(name = "payment_method")
+    private String paymentMethod;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<Cart> cartItems;
@@ -52,6 +55,10 @@ public class Orders {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_agent_id")
+    private User deliveryAgent;
 
 
     @Column(name = "order_date")
@@ -127,8 +134,21 @@ public class Orders {
         this.cartItems = cartItems;
     }
 
-    
-    
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public User getDeliveryAgent() {
+        return deliveryAgent;
+    }
+
+    public void setDeliveryAgent(User deliveryAgent) {
+        this.deliveryAgent = deliveryAgent;
+    }
 
     // Helper Methods
     public void addToCart(Cart cart) {

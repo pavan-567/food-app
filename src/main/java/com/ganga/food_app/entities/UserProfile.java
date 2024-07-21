@@ -42,6 +42,15 @@ public class UserProfile implements Serializable {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -58,11 +67,40 @@ public class UserProfile implements Serializable {
 
     }
 
-    public UserProfile(String firstName, String lastName, String gender, String phoneNumber) {
+    public UserProfile(String firstName, String lastName, String gender, String phoneNumber, String city, String state, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.city = city;
+        this.state = state;
+        this.country =country;
+    }
+
+    
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public UUID getId() {

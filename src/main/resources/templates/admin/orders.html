@@ -14,42 +14,9 @@ th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::sc
                 <hr class="my-2">
                 <div th:if="${#lists.size(orders) == 0}">No Orders</div>
             </div>
-            <!-- <div th:each="order, stat : ${orders}">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <img th:src="@{/images/icons/parcel_icon.png}" alt="">
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div th:text="${orderNames[stat.index]}" />
-                                </div>
-                                <div class="row">
-                                    <div th:text="${order.address.firstName} + ' ' + ${order.address.lastName}" />
-                                    <div th:text="${order.address.street} + ','"></div>
-                                    <div th:text="${order.address.city} + ',' + ${order.address.state} + ',' + ${order.address.zipCode}"></div>
-                                    <div th:text="${order.address.phoneNumber}" />
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div th:text="'Items : ' + ${#lists.size(order.cartItems)}" />
-                            </div>
-                            <div class="col">
-                                <form th:action="@{/admin/status}" method="post">
-                                    <input type="hidden" name="orderId" th:value="${order.id}" />
-                                    <select name="status" th:value="${order.orderStatus}" id="" class="form-select">
-                                        <option th:value="processing" th:selected="${order.orderStatus=='processing'}">Food Processing</option>
-                                        <option th:value="delivery" th:selected="${order.orderStatus=='delivery'}">Out For Delivery</option>
-                                        <option th:value="delivered" th:selected="${order.orderStatus=='delivered'}">Delivered</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-danger">Modify</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-            </div> -->
+            <div class="mx-10 my-5">
+                <div th:replace="~{fragments/message::message}"></div>
+            </div>
             <div class="card bg-base-100 shadow-xl mx-16 my-10" th:each="order, stat : ${orders}">
                 <div class="card-body">
                     <div class="md:flex md:items-center md:justify-between">
@@ -106,18 +73,31 @@ th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::sc
                     <div>
                         <div>
                             <div id="content">
-                                <div class="mb-2 flex gap-1 items-center">From User : <span th:text="${order.user.name}" class="italic font-bold" />
-                                <th:block th:if="${#strings.equals(order.user.userProfile.gender, 'male')}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="red" class="bi bi-gender-male" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
-                                      </svg>
-                                </th:block>
-                                <th:block th:unless="${#strings.equals(order.user.userProfile.gender, 'male')}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="#84cc16" class="bi bi-gender-female" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                                      </svg>
-                                </th:block>
-                            
+                                <div class="mb-2 flex gap-1 items-center">
+                                    From User : <span th:text="${order.user.name}" class="italic font-bold" />
+                                    <th:block th:if="${#strings.equals(order.user.userProfile.gender, 'male')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="red" class="bi bi-gender-male" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
+                                        </svg>
+                                    </th:block>
+                                    <th:block th:unless="${#strings.equals(order.user.userProfile.gender, 'male')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="#84cc16" class="bi bi-gender-female" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                                        </svg>
+                                    </th:block>
+                                </div>
+                                <div class="mt-1 my-2 flex gap-1 items-center" th:unless="${order.deliveryAgent == null}">Order Assigned To The Delivery Agent - 
+                                    <span th:text="${order.deliveryAgent.name}" class="font-bold italic" />
+                                    <th:block th:if="${#strings.equals(order.deliveryAgent.userProfile.gender, 'male')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="red" class="bi bi-gender-male" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
+                                        </svg>
+                                    </th:block>
+                                    <th:block th:unless="${#strings.equals(order.deliveryAgent.userProfile.gender, 'male')}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="#84cc16" class="bi bi-gender-female" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                                        </svg>
+                                    </th:block>
                                 </div>
                                 <div th:text="${orderNames[stat.index]}" class="font-semibold text-violet-500 text-lg"></div>
                             </div>
@@ -125,6 +105,78 @@ th:replace="~{admin/layout/base::adminLayout(~{::.container}, ~{::title}, ~{::sc
                                 <img th:each="cartItem : ${order.cartItems}" class="shadow-lg rounded-md w-12 h-12 object-cover" th:src="${cartItem.food.image}" alt="" />
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-accent" th:attr="onclick=|my_modal_3__${stat.index}.showModal()|">
+                            <span th:if="${order.deliveryAgent == null}">
+                                Assign Delivery Agent
+                            </span>
+                            <span th:unless="${order.deliveryAgent == null}">
+                                Modify
+                            </span>
+                        </button>
+                        <dialog th:id="'my_modal_3__' + ${stat.index}" class="modal">
+                        <div class="modal-box w-11/12 max-w-3xl h-auto">
+                            <form method="dialog">
+                                <button class="btn btn-md btn-circle btn-ghost absolute right-3 top-[14px]">✕</button>
+                            </form>
+                            <div class="text-xl font-bold">Assign Agent</div>
+                            <hr class="mt-3 mb-1">
+                            <div class="flex items-center justify-between">
+                                <div class="font-semibold">Select One Of The Agent Available In <span th:text="${order.address.city}"></span></div>
+                                <div class="flex gap-2 items-center">
+                                    <div class="bg-yellow-300" style="width: 10px; height: 10px;">
+                                    </div>
+                                    <span class="italic"> - Delivery Assigned To Agent</span>
+                                </div>
+                            </div>
+                            <div class="py-2">
+                                
+                                <form th:action="@{/delivery/assignAgent}" method="post">
+                                    <input type="hidden" name="order" th:value="${order.id}" />
+                                    <div class="flex items-center flex-col gap-5">
+                                        <div th:each="agent : ${deliveryAgents}" th:with="hasAssigned=${@agentHelper.hasAgentAssigned(agent, order)}" th:if="${@agentHelper.isAgentLocation(agent, order)}">
+                                            <div class="card bg-base-100 w-[35rem] shadow-xl" th:classappend="${hasAssigned} ? 'bg-yellow-200'  : ''">
+                                                
+                                                <div class="card-body">
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex gap-5">
+                                                            <img th:src="${agent.userProfile.image}" alt="lol" class="object-cover rounded-full shadow-lg" height="50" width="50" />
+                                                            <div>
+                                                                <div th:text="${agent.name}" class="text-2xl font-bold"
+                                                                    th:classappend="${hasAssigned} ? 'text-green-500' : ''"
+                                                                />
+                                                                <div th:text="${agent.userProfile.firstName} + ' ' + ${agent.userProfile.lastName}" class="italic" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-col font-semibold">
+                                                            <div th:text="${agent.userProfile.city}"></div>
+                                                                <div th:text="${agent.userProfile.state} + ' , ' + ${agent.userProfile.country}"></div>
+                                                        </div>
+                                                        <div class="flex items-center">
+                                                            <th:block>
+                                                                <th:block th:if="${hasAssigned}">
+                                                                    <input type="radio" checked name="agent" th:value="${agent.id}" class="radio" required />
+                                                                    
+                                                                </th:block>
+                                                                <th:block th:unless="${hasAssigned}">
+                                                                    <input type="radio" name="agent" th:value="${agent.id}" class="radio" required />
+                                                                </th:block>
+                                                            </th:block>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center mt-10">
+                                        <button class="btn btn-accent">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        </dialog>
                     </div>
                 </div>
               </div>

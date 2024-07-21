@@ -71,6 +71,9 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Orders> orders;
 
+    @OneToMany(mappedBy = "deliveryAgent")
+    private List<Orders> deliveryOrders;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
 
@@ -169,6 +172,16 @@ public class User implements Serializable, UserDetails {
         this.userProfile = userProfile;
     }
 
+    
+
+    public List<Orders> getDeliveryOrders() {
+        return deliveryOrders;
+    }
+
+    public void setDeliveryOrders(List<Orders> deliveryOrders) {
+        this.deliveryOrders = deliveryOrders;
+    }
+
     // Helper Methods
     public void addRole(Role role) {
         if (roles == null)
@@ -188,6 +201,13 @@ public class User implements Serializable, UserDetails {
             orders = new ArrayList<>();
         orders.add(order);
         order.setUser(this);
+    }
+
+    public void addDeliveryOrder(Orders order) {
+        if(deliveryOrders == null)
+            deliveryOrders = new ArrayList<>();
+        deliveryOrders.add(order);
+        order.setDeliveryAgent(this);
     }
 
     public int getEnabled() {

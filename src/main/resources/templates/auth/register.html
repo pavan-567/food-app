@@ -7,86 +7,24 @@
 </head>
 <body>
     <div class="container mx-auto h-screen">
-        <!-- <div class="my-3">
-            <div class="d-flex justify-content-center mt-5">
-                <div class="card" style="width: 35rem;">
-                    <div class="card-header fw-bold text-center text-capitalize">Registration Form</div>
-                    <div class="card-body">
-                            <div th:replace="fragments/message::message"></div>
-                        <form action="#" th:action= "@{'register'}" 
-                        th:object="${userForm}"
-                        method="post" novalidate>
-                            <div class="mb-3">
-                                <label for="uName" class="form-label">Username</label>
-                                <input type="text" name="username" class="form-control" id="uName" 
-                                data-th-field="*{username}" required
-                                placeholder="Enter Username" />
-                            <p th:if= "${#fields.hasErrors('username')}" data-th-errors="*{username}" class=" text-red-500" style="font-size: 12px;"></p>
-                            </div>
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label for="fName" class="form-label">First Name</label>
-                                    <input type="text" placeholder="Enter First Name" name="first_name" id="fName" 
-                                    data-th-field="*{firstName}"
-                                    class="form-control" required>
-                                    <p th:if= "${#fields.hasErrors('firstName')}" data-th-errors="*{firstName}" class=" text-red-500" style="font-size: 12px;"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="lName" class="form-label">Last Name</label>
-                                    <input type="text"  placeholder="Enter Last Name" name="last_name" id="lName" class="form-control" data-th-field="*{lastName}" required>
-                                    <p th:if= "${#fields.hasErrors('lastName')}" data-th-errors="*{lastName}" class=" text-red-500" style="font-size: 12px;"></p>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="gender" class="form-label">Gender</label>
-                                <select name="gender" id="gender" class="form-select" data-th-field="*{gender}" required>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                                <p th:if= "${#fields.hasErrors('gender')}" data-th-errors="*{gender}" class=" text-red-500" style="font-size: 12px;"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" name="email" id="email" placeholder="Enter Email" data-th-field="*{email}"  class="form-control" required>
-                                <p th:if= "${#fields.hasErrors('email')}" data-th-errors="*{email}" class=" text-red-500" style="font-size: 12px;"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pass" class="form-label">Password</label>
-                                <input type="password" name="password" id="pass" placeholder="Enter Password" class="form-control" data-th-field="*{password}" required>
-                                <p th:if= "${#fields.hasErrors('password')}" data-th-errors="*{password}" class=" text-red-500" style="font-size: 12px;"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="contact" class="form-label">Contact Number</label>
-                                <input type="number" name="phone" id="contact" class="form-control" placeholder="Enter Your Mobile Number" data-th-field="*{phoneNumber}" required>
-                                <p th:if= "${#fields.hasErrors('phoneNumber')}" data-th-errors="*{phoneNumber}" class=" text-red-500" style="font-size: 12px;"></p>
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn text-red-500">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                  </div>
-            </div>
-        </div> -->
         <div class="flex items-center justify-center">
             <div class="card lg:card-side bg-base-100 mt-20 mb-32 mx-5 shadow-xl">
                 <figure>
                   <img
                     src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148703851.jpg?w=1380&t=st=1721202062~exp=1721202662~hmac=b71abe9217f0e3037f0832c042b44441498792df73f5b64404b8478b7a20b07c"
                     style="height: 100%;" 
-                    class="object-cover lg:w-[20rem]"
+                    class="object-cover lg:w-[30rem]"
                     alt="Album" />
                 </figure>
                 <div class="card-body">
-                    <div th:replace="fragments/message::message"></div>
-                  <h2 class="card-title">Registration</h2>
+                    <div th:replace="~{fragments/message::message}"></div>
+                  <h2 class="card-title">User Registration</h2>
                   <hr>
                     <form th:action="@{register}" th:object="${userForm}" method="post" novalidate>
-                        <div class="mb-3 space-y-4">
+                        <div class="mb-3 space-y-1">
                                     <label for="uName" class="form-label">Username</label>
-                                    <div>
-                                        <input type="text" name="username" class="input input-bordered w-full max-w-xs rounded-md" id="uName" 
+                                    <div class="">
+                                        <input type="text" name="username" class="input input-bordered w-full rounded-md" id="uName" 
                                         data-th-field="*{username}" required
                                         placeholder="Enter Username" />
                                     </div>
@@ -97,19 +35,19 @@
                                         <label for="fName" class="form-label">First Name</label>
                                         <input type="text" placeholder="Enter First Name" name="first_name" id="fName" 
                                         data-th-field="*{firstName}"
-                                        class="input input-bordered w-full max-w-xs rounded-md" required>
+                                        class="input input-bordered w-full rounded-md" required>
                                         <p th:if= "${#fields.hasErrors('firstName')}" data-th-errors="*{firstName}" class=" text-red-500" style="font-size: 12px;"></p>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="lName" class="form-label">Last Name</label>
-                                        <input type="text"  placeholder="Enter Last Name" name="last_name" id="lName" class="input input-bordered w-full max-w-xs rounded-md" data-th-field="*{lastName}" required>
+                                        <input type="text"  placeholder="Enter Last Name" name="last_name" id="lName" class="input input-bordered w-full rounded-md" data-th-field="*{lastName}" required>
                                         <p th:if= "${#fields.hasErrors('lastName')}" data-th-errors="*{lastName}" class=" text-red-500" style="font-size: 12px;"></p>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="gender" class="form-label">Gender</label>
                                     <div>
-                                        <select name="gender" id="gender" class="select select-bordered rounded-md w-full max-w-xs" data-th-field="*{gender}" required>
+                                        <select name="gender" id="gender" class="select select-bordered rounded-md w-full" data-th-field="*{gender}" required>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
@@ -120,30 +58,57 @@
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <div>
-                                        <input type="email" name="email" id="email" placeholder="Enter Email" data-th-field="*{email}"  class="rounded-md input input-bordered w-full max-w-xs" required>
+                                        <input type="email" name="email" id="email" placeholder="Enter Email" data-th-field="*{email}"  class="rounded-md input input-bordered w-full" required>
                                     </div>
                                     <p th:if= "${#fields.hasErrors('email')}" data-th-errors="*{email}" class=" text-red-500" style="font-size: 12px;"></p>
                                 </div>
                                 <div class="mb-3">
                                     <label for="pass" class="form-label">Password</label>
                                     <div>
-                                        <input type="password" name="password" id="pass" placeholder="Enter Password" class="rounded-md input input-bordered w-full max-w-xs" data-th-field="*{password}" required>
+                                        <input type="password" name="password" id="pass" placeholder="Enter Password" class="rounded-md input input-bordered w-full" data-th-field="*{password}" required>
                                     </div>
                                     <p th:if= "${#fields.hasErrors('password')}" data-th-errors="*{password}" class=" text-red-500" style="font-size: 12px;"></p>
                                 </div>
                                 <div class="mb-3">
                                     <label for="pass" class="form-label">Confirm Password</label>
                                     <div>
-                                        <input type="password" name="password" id="pass" placeholder="Enter Password" class="rounded-md input input-bordered w-full max-w-xs" data-th-field="*{confirmPassword}" required>
+                                        <input type="password" name="password" id="pass" placeholder="Enter Password" class="rounded-md input input-bordered w-full" data-th-field="*{confirmPassword}" required>
                                     </div>
                                     <p th:if= "${#fields.hasErrors('confirmPassword')}" data-th-errors="*{confirmPassword}" class=" text-red-500" style="font-size: 12px;"></p>
                                 </div>
                                 <div class="mb-3">
+                                    <div>
+                                        <label for="city">City</label>
+                                        <div>
+                                            <input type="text" name="state" id="city" placeholder="Enter City" class="rounded-md input input-bordered w-full" data-th-field="*{city}" required>
+                                            <p th:if= "${#fields.hasErrors('city')}" data-th-errors="*{city}" class=" text-red-500" style="font-size: 12px;"></p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="state">State</label>
+                                        <div>
+                                            <input type="text" name="state" id="state" placeholder="Enter State" class="rounded-md input input-bordered w-full" data-th-field="*{state}" required>
+                                            <p th:if= "${#fields.hasErrors('state')}" data-th-errors="*{state}" class=" text-red-500" style="font-size: 12px;"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cnt">Country</label>
+                                        <div>
+                                            <input type="text" name="country" id="cnt" placeholder="Enter Country" class="rounded-md input input-bordered w-full" data-th-field="*{country}" required>
+                                            <p th:if= "${#fields.hasErrors('country')}" data-th-errors="*{country}" class=" text-red-500" style="font-size: 12px;"></p>
+                                        </div>
+                                </div>
+                                <div class="mb-3">
                                     <label for="contact" class="form-label">Contact Number</label>
                                     <div>
-                                        <input type="number" name="phone" id="contact" class="rounded-md input input-bordered w-full max-w-xs" placeholder="Enter Your Mobile Number" data-th-field="*{phoneNumber}" required>
+                                        <input type="number" name="phone" id="contact" class="rounded-md input input-bordered w-full" placeholder="Enter Your Mobile Number" data-th-field="*{phoneNumber}" required>
                                     </div>
                                     <p th:if= "${#fields.hasErrors('phoneNumber')}" data-th-errors="*{phoneNumber}" class=" text-red-500" style="font-size: 12px;"></p>
+                                </div>
+                                <div class="mb-3 flex items-center gap-2">
+                                    <input type="checkbox" name="delivery" class="checkbox" id="del" />
+                                    <label for="del">Register as Delivery Agent</label>
                                 </div>
                                 <div class="mb-3">
                                     <button type="submit" class="btn rounded-md btn-info">Submit</button>

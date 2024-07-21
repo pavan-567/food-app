@@ -84,6 +84,7 @@
                    <div th:text="${loggedUser.name}" class="text-center"></div>
                    <th:block th:each="role: ${loggedUser.roles}">
                        <span th:if="${#strings.equals(role.role, 'ROLE_ADMIN')}" th:text="'Admin'" class="text-center font-semibold text-md absolute top-1 right-1 bg-purple-600 p-1 text-white rounded-lg"></span>
+                       <span th:if="${#strings.equals(role.role, 'ROLE_DELIVERY')}" th:text="'Agent'" class="text-center font-semibold text-md absolute top-1 right-1 bg-amber-500 p-1 text-white rounded-lg"></span>
                    </th:block>
                    <div th:text="'User Since - ' + ${#temporals.format(loggedUser.createdAt, 'dd-MM-yyyy')}" class="italic text-center"></div>
                    <button class="btn btn-secondary btn-sm" onclick="my_modal_1.showModal()">More Details</button>
@@ -116,18 +117,20 @@
                                         <th>Phone Number</th>
                                         <td th:text="${loggedUser.userProfile.phoneNumber}"></td>
                                     </tr>
-                                    <tr class="hover">
-                                        <th>Your Orders</th>
-                                        <td>
-                                            <a href="/orders">Click Here</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover">
-                                        <th>Your Addresses</th>
-                                        <td>
-                                            <a href="/address">Click Here</a>
-                                        </td>
-                                    </tr>
+                                    <th:block th:unless="${@roleHelper.isAgent(loggedUser)}">
+                                        <tr class="hover">
+                                            <th>Your Orders</th>
+                                            <td>
+                                                <a href="/orders">Click Here</a>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover">
+                                            <th>Your Addresses</th>
+                                            <td>
+                                                <a href="/address">Click Here</a>
+                                            </td>
+                                        </tr>
+                                    </th:block>
                                   </tbody>
                                 </table>
                               </div>

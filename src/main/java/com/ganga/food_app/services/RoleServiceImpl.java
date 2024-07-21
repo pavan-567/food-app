@@ -23,4 +23,10 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.getAdminRole();
     }
 
+    @Override
+    public Role getDeliveryRole() {
+        // TODO Auto-generated method stub
+        return roleRepository.getDeliveryRole();
+    }
+
 }

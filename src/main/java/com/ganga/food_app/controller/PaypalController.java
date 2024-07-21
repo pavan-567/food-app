@@ -79,32 +79,7 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
-                Address addr = addressService.getAddress(addressId);
-                Orders order = new Orders();
-
-                for(var inp: cartInputs) {
-                    Cart c = new Cart();
-                    c.setQuantity(inp.getQuantity());
-                    c.setFood(inp.getFood());
-                    order.addToCart(c);
-                }
-
-                order.setPaymentStatus(true);
-                order.setAddress(addr);
-                order.setUser(user);
-                order.setPaymentID(paymentId);
-
-
-                List<Transaction> t = payment.getTransactions();
-                double total = 0;
-                for(var transaction: t) {
-                    total = Double.parseDouble(transaction.getAmount().getTotal());
-                }
-                order.setAmount((int) Math.round(total));
-                order.setOrderStatus("processing");
-
-                ordersService.save(order);
-                
+                ordersService.placeOrder(payment, addressId, user, cartInputs, paymentId);
                 session.removeAttribute("cart");
                 session.removeAttribute("address");
                 session.setAttribute("message", new Message("Order Placed Successfully!", MessageType.SUCCESS));

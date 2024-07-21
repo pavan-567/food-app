@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment= "agentLayout(content, title, script)" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${title}" />
+    <link rel="stylesheet" data-th-href="@{/css/output.css}">
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <div th:replace="~{agent/layout/navbar::nav}"></div>
+    <div class="content grid grid-cols-[1fr_4fr] gap-5">
+      <div th:replace="~{agent/layout/sidebar::sidebar}"></div>
+      <div th:replace= "${content}"></div>
+    </div>
+    <!-- <script th:src="@{/js/script.js}"></script> -->
+     <script th:replace="${script}"></script>
+  </body>
+</html>
