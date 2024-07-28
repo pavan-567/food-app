@@ -14,11 +14,17 @@
         flex-direction: column;
       }
 
+      #content {
+        margin: 0 10px;
+      }
+
     </style>
   </head>
   <body>
     <div th:replace="~{navbar::nav}"></div>
-    <div th:replace= "${content}"></div>
+    <div id="content">
+      <div th:replace= "${content}"></div>
+    </div>
     <script th:replace="${script}"></script>
   </body>
 </html>

@@ -27,6 +27,9 @@
         </div>
         <!--  -->
         <div id="items" class="container mx-auto overflow-hidden">
+            <div class="mx-10">
+                <div th:replace="~{fragments/message::message}"></div>
+            </div>
             <div class="m-10">
                 <div th:text="${#lists.size(foodItems)} + ' Items'" class="text-2xl font-semibold" />
                 <hr class="mt-2">
@@ -146,6 +149,9 @@
             })
 
         })
+
+        const content = document.getElementById("content");
+        content.style.margin="0";
     </script>
 </body>
 

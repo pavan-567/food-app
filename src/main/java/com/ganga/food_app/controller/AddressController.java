@@ -40,7 +40,7 @@ public class AddressController {
 
     @GetMapping("/create")
     public String addressForm(Model model) {
-        model.addAttribute("address", new Address());
+        model.addAttribute("address", Address.builder().build());
         return "addr/addrForm";
     }
 

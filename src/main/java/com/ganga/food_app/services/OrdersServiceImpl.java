@@ -52,20 +52,19 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public void placeOrder(Payment payment, UUID addressId, User user, List<CartInput> cartInputs, String paymentId) {
                 Address addr = addressService.getAddress(addressId);
-                Orders order = new Orders();
+                Orders order = Orders.builder()
+                                    .paymentStatus(true)
+                                    .address(addr)
+                                    .user(user)
+                                    .paymentID(paymentId)
+                                    .paymentMethod("card")
+                                    .build();
 
                 for(var inp: cartInputs) {
-                    Cart c = new Cart();
-                    c.setQuantity(inp.getQuantity());
-                    c.setFood(inp.getFood());
-                    order.addToCart(c);
+                    order.addToCart(Cart.builder()
+                    .quantity(inp.getQuantity())
+                    .food(inp.getFood()).build());
                 }
-
-                order.setPaymentStatus(true);
-                order.setAddress(addr);
-                order.setUser(user);
-                order.setPaymentID(paymentId);
-                order.setPaymentMethod("card");
 
 
                 List<Transaction> t = payment.getTransactions();
@@ -83,20 +82,19 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public void placeOrder(UUID addressId, User user, List<CartInput> cartInputs, int totalAmount) {
         Address addr = addressService.getAddress(addressId);
-        Orders order = new Orders();
-        for(var inp: cartInputs) {
-            Cart c = new Cart();
-            c.setQuantity(inp.getQuantity());
-            c.setFood(inp.getFood());
-            order.addToCart(c);
-        }
+        Orders order = Orders.builder()
+                            .paymentStatus(false)
+                            .address(addr)
+                            .user(user)
+                            .paymentMethod("cash")
+                            .amount(totalAmount)
+                            .orderStatus("processing")
+                            .build();
 
-        order.setPaymentStatus(false);
-        order.setAddress(addr);
-        order.setUser(user);
-        order.setPaymentMethod("cash");
-        order.setAmount(totalAmount);
-        order.setOrderStatus("processing");
+
+        for(var inp: cartInputs) {
+            order.addToCart(Cart.builder().quantity(inp.getQuantity()).food(inp.getFood()).build());
+        }
 
         orderRepository.save(order);
     }

@@ -1,5 +1,7 @@
 package com.ganga.food_app.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ganga.food_app.entities.Role;
 import com.ganga.food_app.entities.User;
 import com.ganga.food_app.entities.UserProfile;
 import com.ganga.food_app.forms.UserForm;
@@ -34,12 +35,22 @@ public class AuthController {
     private RoleService roleService;
 
     @GetMapping("/login")
-    public String login(@PathVariable(value= "error", required= false) String error) {
+    public String login(@PathVariable(value = "error", required = false) String error, Principal principal,
+            HttpSession session) {
+        if (principal != null) {
+            session.setAttribute("message", new Message("You are Already Logged In!", MessageType.WARNING));
+            return "redirect:/items";
+        }
         return "auth/login";
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(Model model, Principal principal, HttpSession session) {
+        if (principal != null) {
+            session.setAttribute("message", new Message("You are Already Logged In!", MessageType.WARNING));
+            return "redirect:/items";
+        }
+
         UserForm userForm = new UserForm();
 
         model.addAttribute("userForm", userForm);
@@ -47,35 +58,36 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult,
+            HttpSession session, HttpServletRequest request) {
         if (bindingResult.hasErrors())
             return "auth/register";
-
 
         String deliveryResult = request.getParameter("delivery");
         boolean isDelivery = deliveryResult == null ? false : true;
 
-        User u = new User(userForm.getUsername(),
-                userForm.getEmail(),
-                userForm.getPassword());
+        User u = User.builder()
+                .email(userForm.getEmail())
+                .password(userForm.getPassword())
+                .build();
 
-        UserProfile up = new UserProfile(
-                userForm.getFirstName(),
-                userForm.getLastName(),
-                userForm.getGender(),
-                userForm.getPhoneNumber(),
-                userForm.getCity(),
-                userForm.getState(),
-                userForm.getCountry());
+        UserProfile up = UserProfile.builder()
+                .firstName(userForm.getFirstName())
+                .lastName(userForm.getLastName())
+                .gender(userForm.getGender())
+                .phoneNumber(userForm.getPhoneNumber())
+                .city(userForm.getCity())
+                .state(userForm.getState())
+                .country(userForm.getCountry())
+                .user(u) // Important
+                .build();
 
-        if(isDelivery) {
+        if (isDelivery) {
             u.addRole(roleService.getDeliveryRole());
-        } else { 
+        } else {
             u.addRole(roleService.getUserRole());
         }
-        
 
-        up.setUser(u); // Important To Set
         u.setUserProfile(up);
 
         if (userForm.getGender().equals("male")) {
@@ -85,7 +97,7 @@ public class AuthController {
         }
 
         session.setAttribute("message", new Message("Registration Successfull", MessageType.SUCCESS));
-        
+
         userService.saveUser(u);
         return "redirect:/auth/register";
     }

@@ -29,9 +29,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -77,111 +85,6 @@ public class User implements Serializable, UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
 
-    public User() {
-
-    }
-
-    public List<Orders> getOrders() {
-        return orders;
-    }
-
-
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
-    }
-
-
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-    
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
-    
-
-    public List<Orders> getDeliveryOrders() {
-        return deliveryOrders;
-    }
-
-    public void setDeliveryOrders(List<Orders> deliveryOrders) {
-        this.deliveryOrders = deliveryOrders;
-    }
-
     // Helper Methods
     public void addRole(Role role) {
         if (roles == null)
@@ -210,18 +113,9 @@ public class User implements Serializable, UserDetails {
         order.setDeliveryAgent(this);
     }
 
-    public int getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        Collection<SimpleGrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).toList();
-       System.out.println("Authorities : " + authorities);
        return authorities;
     }
 
@@ -249,12 +143,4 @@ public class User implements Serializable, UserDetails {
     public boolean isEnabled() {
         return this.enabled == 1 ? true : false;
     }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", enabled="
-                + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-    }
-
-
 }

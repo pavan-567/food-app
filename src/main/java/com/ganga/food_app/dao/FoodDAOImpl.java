@@ -39,13 +39,14 @@ public class FoodDAOImpl {
             List<FoodKaka> foodKakas = mapper.readValue(file, foods);
             for(int i = 0; i < foodKakas.size(); i++) {
                 foodKakas.get(i).setImage("/images/items/food_" + (i + 1) + ".png");
-                Food f = new Food();
                 FoodKaka fk = foodKakas.get(i);
-                f.setName(fk.getName());
-                f.setImage(fk.getImage());
-                f.setPrice(fk.getPrice());
-                f.setDescription(fk.getDescription());
-                f.setCategory(fk.getCategory());
+                Food f = Food.builder()
+                    .name(fk.getName())
+                    .image(fk.getImage())
+                    .price(fk.getPrice())
+                    .description(fk.getDescription())
+                    .category(fk.getCategory())
+                    .build();
                 entityManager.persist(f);
             }
         } catch (Exception e) {

@@ -55,7 +55,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer -> {
             configurer.requestMatchers("/items").permitAll();
             configurer.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
-            configurer.requestMatchers("/cart/**").hasAnyRole("USER", "ADMIN");
             configurer.requestMatchers("/orders/**").hasAnyRole("USER", "ADMIN");
             configurer.requestMatchers("/address/**").hasAnyRole("USER", "ADMIN");
             configurer.requestMatchers("/admin/**").hasRole("ADMIN");

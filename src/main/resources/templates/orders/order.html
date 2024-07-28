@@ -41,58 +41,66 @@
                 </div>
             </div>
         </div>
-        <div class="card bg-base-100 w-auto shadow-xl my-10">
-            <div class="card-body">
-                <div th:class="${order.deliveryAgent} ?  'grid md:grid-cols-[2fr_1fr]' : 'grid grid-cols-1'">
-                    <div>
-                        <th:block th:switch="*{orderStatus}">
-                            <th:block th:case="'processing'">
-                               <div class="font-bold text-2xl my-3 text-yellow-500">Processing</div>
+        <div class="grid gap-3 justify-between" th:classappend="${order.deliveryAgent} ? 'md:grid-cols-2' : 'grid-cols-1'">
+            <div>
+                <div class="card bg-base-100 w-auto shadow-xl my-10">
+                    <div class="card-body">
+                        <div>
+                            <th:block th:switch="*{orderStatus}">
+                                <th:block th:case="'processing'">
+                                    <div class="font-bold text-2xl my-3 text-yellow-500">Processing</div>
+                                </th:block>
+                                <th:block th:case="'delivery'">
+                                    <div class="font-bold text-2xl my-3 text-orange-500">Out For Delivery</div>
+                                </th:block>
+                                <th:block th:case="'delivered'">
+                                    <div class="font-bold text-2xl my-3 text-green-500">Delivered</div>
+                                </th:block>
                             </th:block>
-                            <th:block th:case="'delivery'">
-                                <div class="font-bold text-2xl my-3 text-orange-500">Out For Delivery</div>
-                            </th:block>
-                            <th:block th:case="'delivered'">
-                                <div class="font-bold text-2xl my-3 text-green-500">Delivered</div>
-                            </th:block>
-                        </th:block>
         
-                        <th:block th:with="items=${order.cartItems}">
-                            <div th:each="item : ${items}" class="mb-10">
-                                <div class="flex gap-3">
-                                    <img th:src="${item.food.image}" alt="" class="h-40 w-40 object-cover shadow-xl rounded-md" />
-                                    <div class="flex flex-col">
-                                        <div th:text="${item.food.name}" class="text-xl font-bold" />
-                                        <div th:text="'Quantity : ' + ${item.quantity}" />
-                                        
-                                        <div th:text="'Item Price : $' + ${item.food.price}" />
+                            <th:block th:with="items=${order.cartItems}">
+                                <div th:each="item : ${items}" class="mb-10">
+                                    <div class="flex gap-3">
+                                        <img th:src="${item.food.image}" alt=""
+                                            class="h-40 w-40 object-cover shadow-xl rounded-md" />
+                                        <div class="flex flex-col">
+                                            <div th:text="${item.food.name}" class="text-xl font-bold" />
+                                            <div th:text="'Quantity : ' + ${item.quantity}" />
         
-                                        <div th:text="'Total : $' + ${(item.food.price * item.quantity)}" class="font-bold mt-auto mb-2 text-xl" />
-                                    </div>
-                                </div>
-                            </div>
-                        </th:block>
-                    </div>
-                    <div th:if="${order.deliveryAgent}" class="mt-2">
-                        <div class="px-3 mx-5 my-2">
-                                    <div class="font-bold text-2xl my-2 text-center">Assigned Delivery Agent</div>
-                                    <hr class="my-2" />
-                                    <div class="flex flex-col items-center text-center gap-3 my-3 p-2">
-                                        <img th:src="${order.deliveryAgent.userProfile.image}" class="rounded-full object-cover h-32 w-32 shadow-xl" alt="">
-                                        <div>
-                                            <div class="mt-2">
-                                                <span th:text="${order.deliveryAgent.name}" class="font-bold text-xl"></span>
-                                            </div>
-                                            <div class="text-gray-400">
-                                                <span th:text="${order.deliveryAgent.userProfile.phoneNumber}" class="font-medium"></span>
-                                            </div>
+                                            <div th:text="'Item Price : $' + ${item.food.price}" />
+        
+                                            <div th:text="'Total : $' + ${(item.food.price * item.quantity)}"
+                                                class="font-bold mt-auto mb-2 text-xl" />
                                         </div>
                                     </div>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
                 </div>
             </div>
-          </div>
+            <div th:if="${order.deliveryAgent}">
+                <div class="card bg-base-100 w-auto shadow-xl">
+                    <div class="card-body">
+                        <div class="px-3 mx-5 my-2">
+                            <div class="font-bold text-2xl my-2 text-center">Assigned Delivery Agent</div>
+                            <hr class="my-2" />
+                            <div class="flex flex-col items-center text-center gap-3 my-3 p-2">
+                                <img th:src="${order.deliveryAgent.userProfile.image}" class="rounded-full object-cover h-32 w-32 shadow-xl" alt="">
+                                <div>
+                                    <div class="mt-2">
+                                        <span th:text="${order.deliveryAgent.name}" class="font-bold text-xl"></span>
+                                    </div>
+                                    <div class="text-gray-400">
+                                        <span th:text="${order.deliveryAgent.userProfile.phoneNumber}" class="font-medium"></span>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
     </div>
     <script></script>
 </body>

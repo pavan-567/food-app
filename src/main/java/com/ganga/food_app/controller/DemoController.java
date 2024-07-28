@@ -47,8 +47,8 @@ public class DemoController {
             }
         }
         if(!exists) {
-            Role user = new Role("ROLE_USER");
-            Role admin = new Role("ROLE_ADMIN");
+            Role user = Role.builder().role("ROLE_USER").build();
+            Role admin = Role.builder().role("ROLE_ADMIN").build();
             roleRepository.saveAll(List.of(user, admin));
         }
         return "redirect:/items";

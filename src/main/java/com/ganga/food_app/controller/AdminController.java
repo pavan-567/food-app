@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,14 +73,22 @@ public class AdminController {
     public String processFood(@RequestParam("image") MultipartFile imgFile, @RequestParam("name") String itemName,
             @RequestParam("description") String description, @RequestParam("category") String category,
             @RequestParam("price") int price) throws IOException {
-                
-        File file = new File("G:\\Coding\\Gangadhar\\Projects\\Java\\Food_Delivery\\food-app\\src\\main\\resources\\static\\images\\items");
+
+        File file = new File(
+                "G:\\Coding\\Gangadhar\\Projects\\Java\\Food_Delivery\\food-app\\src\\main\\resources\\static\\images\\items");
         String newName = "food_" + UUID.randomUUID() + ".png";
         Path path = Paths.get(file.getAbsolutePath() + File.separator + newName);
 
         Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        foodService.createFood(new Food(itemName, description, price, "/images/items/" + newName, category));
+        foodService.createFood(Food.builder()
+                .name(itemName)
+                .description(description)
+                .price(price)
+                .image("/images/items" + newName)
+                .category(category)
+                .build());
+
         return "redirect:/admin/list";
     }
 
@@ -94,7 +101,8 @@ public class AdminController {
                         .collect(Collectors.joining(", ")))
                 .collect(Collectors.toList());
 
-        List<User> agents = userService.getAllUsers().stream().filter(user -> user.getRoles().contains(roleRepository.getDeliveryRole())).toList();
+        List<User> agents = userService.getAllUsers().stream()
+                .filter(user -> user.getRoles().contains(roleRepository.getDeliveryRole())).toList();
         model.addAttribute("orders", allOrders);
         model.addAttribute("orderNames", orderNames);
         model.addAttribute("deliveryAgents", agents);

@@ -19,8 +19,10 @@
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
           <li><a th:href="@{/items}">Home</a></li>
-          <li th:if="${loggedUser}"><a th:href="@{/orders}">Your Orders</a></li>
-          <li><a>Item 3</a></li>
+          <li th:if="${loggedUser}">
+            <a th:href="@{/orders}" th:unless="${@roleHelper.isAgent(loggedUser)}">Your Orders</a>
+            <a th:href="@{/delivery}" th:if="${@roleHelper.isAgent(loggedUser)}">Agent Dashboard</a>
+          </li>
         </ul>
       </div>
       <a class="btn btn-ghost text-xl">Ganga's Mart</a>

@@ -19,9 +19,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "orders")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
@@ -69,124 +77,10 @@ public class Orders {
     @UpdateTimestamp
     private String orderUpdated;
 
-    public Orders(boolean paymentStatus, int amount, String orderStatus) {
-        this.paymentStatus = paymentStatus;
-        this.amount = amount;
-        this.orderStatus = orderStatus;
-    }
-
-    public Orders() {}
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public boolean isPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(boolean paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public String getOrderCreated() {
-        return orderCreated;
-    }
-
-    public void setOrderCreated(String orderCreated) {
-        this.orderCreated = orderCreated;
-    }
-
-    public String getOrderUpdated() {
-        return orderUpdated;
-    }
-
-    public void setOrderUpdated(String orderUpdated) {
-        this.orderUpdated = orderUpdated;
-    }
-
-
-    public List<Cart> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<Cart> cartItems) {
-        this.cartItems = cartItems;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public User getDeliveryAgent() {
-        return deliveryAgent;
-    }
-
-    public void setDeliveryAgent(User deliveryAgent) {
-        this.deliveryAgent = deliveryAgent;
-    }
-
     // Helper Methods
     public void addToCart(Cart cart) {
         if(cartItems == null)
             cartItems = new ArrayList<>();
         cartItems.add(cart);
     }
-
-    @Override
-    public String toString() {
-        return "Orders [id=" + id + ", paymentStatus=" + paymentStatus + ", amount=" + amount + ", orderStatus="
-                + orderStatus + "]";
-    }
-
-    public String getPaymentID() {
-        return paymentID;
-    }
-
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
- 
-
 }
