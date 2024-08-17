@@ -25,7 +25,6 @@ This project is a simple food delivery application that allows users to order fo
     - View and manage orders.
     - Assign orders to delivery personnel.
     - View and manage users and delivery personnel.
-    - Generate reports on orders and deliveries.
 
 ## Technology Stack
 
@@ -54,24 +53,24 @@ This project is a simple food delivery application that allows users to order fo
 3. **Environment Setup**:
    * Create an **env.properties** file in the resources folder and add the below variables shown
    ```bash
-        DB_USER=your_database_username
-        DB_PASSWORD=your_database_password
-        DB_LINK=your_database_link
-        
-        PAYPAL_CLIENT_ID=your_paypal_client_id
-        
-        PAYPAL_CLIENT_SECRET=your_paypal_client_secret
-        
-        PAYPAL_MODE=your_paypal_mode
-        
-        EMAIL=your_email
-        PASSWORD=your_stored_gmail_app_password[Not Real Password]
+    DB_USER=your_database_username
+    DB_PASSWORD=your_database_password
+    DB_LINK=your_database_link
+    
+    PAYPAL_CLIENT_ID=your_paypal_client_id
+    
+    PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+    
+    PAYPAL_MODE=your_paypal_mode
+    
+    EMAIL=your_email
+    PASSWORD=your_stored_gmail_app_password[Not Real Password]
    ```
 
 4. Run The Application
     * For Tailwind CSS To Work, Run The Command Before Running Spring Boot Application
      ```bash
-    npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
+    npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch
      ```
 ## Usage
 
