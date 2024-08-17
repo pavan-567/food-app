@@ -29,9 +29,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -40,7 +42,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -56,10 +58,15 @@ public class User implements Serializable, UserDetails {
     private String email;
 
     @Column(name = "password")
+    @Getter(AccessLevel.NONE)
     private String password;
 
     @Column(name = "enabled")
-    private int enabled = 1;
+    private int enabled;
+
+    @Column(name = "email_token")
+    @JdbcType(VarcharJdbcType.class)
+    private UUID emailToken;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -71,7 +78,7 @@ public class User implements Serializable, UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = null;
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
@@ -137,6 +144,11 @@ public class User implements Serializable, UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
     }
 
     @Override

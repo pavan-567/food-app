@@ -6,4 +6,5 @@ import com.ganga.food_app.entities.UserProfile;
 public interface ProfileService {
     UserProfile getUserProfile(User user);
     void saveProfile(UserProfile profile);
+    void uploadDP(String filePath, User user);
 }

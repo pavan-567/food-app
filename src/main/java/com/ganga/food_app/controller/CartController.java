@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +22,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequiredArgsConstructor
 public class CartController {
-
-    @Autowired
-    private FoodService foodService;
+    private final FoodService foodService;
 
     @PostMapping("/add-to-cart")
     public String addCart(@RequestParam("foodId") UUID id, HttpSession session, HttpServletRequest request) {

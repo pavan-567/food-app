@@ -11,5 +11,6 @@ public interface FoodService {
     Food getFood(UUID foodId);
     void deleteFood(UUID foodId);
     List<String> getFoodCategories();
-    void createFood(Food food);
+    void saveFood(Food food);
+    Food createFood(String name, String description, String category, Integer price);
 }

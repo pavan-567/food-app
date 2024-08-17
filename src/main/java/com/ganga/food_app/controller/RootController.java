@@ -2,6 +2,7 @@ package com.ganga.food_app.controller;
 
 import java.security.Principal;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,9 +12,9 @@ import com.ganga.food_app.entities.User;
 import com.ganga.food_app.services.UserService;
 
 @ControllerAdvice
+@RequiredArgsConstructor
 public class RootController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @ModelAttribute
     public void addLoggedInInformation(Model model, Principal principal) {

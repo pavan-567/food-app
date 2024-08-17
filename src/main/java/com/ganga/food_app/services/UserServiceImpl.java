@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ganga.food_app.entities.User;
+import com.ganga.food_app.helpers.VerificationHelper;
 import com.ganga.food_app.repositories.UserRepository;
 
 @Service
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
 
     @Autowired
     private UserRepository userRepo;
@@ -24,7 +28,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        UUID emailToken = UUID.randomUUID();
+        user.setEmailToken(emailToken);
+        User savedUser = userRepo.save(user);
+        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Ganga's Mart", VerificationHelper.getLinkForEmailVerification(emailToken));
+        return savedUser;
     }
 
     @Override
@@ -34,17 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> updateUser(User user) {
-        // TODO Auto-generated method stub
-        User currentUser = userRepo.findById(user.getId()).get();
-        currentUser.setName(user.getName());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setPassword(user.getPassword());
-        currentUser.setEnabled(user.getEnabled());
-        currentUser.setUserProfile(user.getUserProfile());
-
-        User savedUser = userRepo.save(currentUser);
-        return Optional.ofNullable(savedUser);
+    public User updateUser(User user) {
+        User savedUser = userRepo.save(user);
+        return savedUser;
     }
 
     @Override
@@ -79,6 +79,11 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         User user = userRepo.findByEmail(email).orElse(null);
         return Optional.ofNullable(user);
+    }
+
+    @Override
+    public User findByToken(UUID tokenId) {
+        return userRepo.findByEmailToken(tokenId).orElse(null);
     }
 
 }

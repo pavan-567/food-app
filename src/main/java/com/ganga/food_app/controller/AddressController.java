@@ -3,6 +3,7 @@ package com.ganga.food_app.controller;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +26,9 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/address")
+@RequiredArgsConstructor
 public class AddressController {
-
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
 
     @GetMapping
     public String addresses(Model model) {

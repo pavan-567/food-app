@@ -24,14 +24,11 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food getFood(UUID foodId) {
         Optional<Food> food = foodRepo.findById(foodId);
-        if(food.isPresent())
-            return food.get();
-        return null;
+        return food.orElse(null);
     }
 
     @Override
     public List<Food> getFoodViaCategory(String category) {
-        // TODO Auto-generated method stub
         return foodRepo.findByCategory(category);
     }
 
@@ -42,14 +39,23 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<String> getFoodCategories() {
-        // TODO Auto-generated method stub
         return foodRepo.findDistinctCategories();
     }
 
     @Override
-    public void createFood(Food food) {
-        // TODO Auto-generated method stub
+    public void saveFood(Food food) {
        foodRepo.save(food);
+    }
+
+    @Override
+    public Food createFood(String name, String description, String category, Integer price) {
+        return Food.builder()
+                .name(name)
+                .description(description)
+                .category(category)
+                .price(price)
+                .image(null)
+                .build();
     }
 
 }

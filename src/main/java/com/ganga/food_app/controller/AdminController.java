@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ganga.food_app.services.FileStorageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,20 +30,13 @@ import com.ganga.food_app.services.UserService;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
-    private final String PATH = "/images/items";
-
-    @Autowired
-    private FoodService foodService;
-
-    @Autowired
-    private OrdersService ordersService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    private final FileStorageService fileStorageService;
+    private final FoodService foodService;
+    private final OrdersService ordersService;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @GetMapping
     public String home() {
@@ -74,21 +68,10 @@ public class AdminController {
             @RequestParam("description") String description, @RequestParam("category") String category,
             @RequestParam("price") int price) throws IOException {
 
-        File file = new File(
-                "G:\\Coding\\Gangadhar\\Projects\\Java\\Food_Delivery\\food-app\\src\\main\\resources\\static\\images\\items");
-        String newName = "food_" + UUID.randomUUID() + ".png";
-        Path path = Paths.get(file.getAbsolutePath() + File.separator + newName);
-
-        Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-        foodService.createFood(Food.builder()
-                .name(itemName)
-                .description(description)
-                .price(price)
-                .image("/images/items" + newName)
-                .category(category)
-                .build());
-
+        Food food = foodService.createFood(itemName, description, category, price);
+        String path = fileStorageService.saveFile(imgFile, food);
+        food.setImage(path);
+        foodService.saveFood(food);
         return "redirect:/admin/list";
     }
 

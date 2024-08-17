@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,10 @@ import com.ganga.food_app.services.OrdersService;
 
 @Controller
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    private AddressService addressService;
-
-    @Autowired
-    private OrdersService ordersService;
+    private final AddressService addressService;
+    private final OrdersService ordersService;
 
     @GetMapping
     public String orders(Model model) {

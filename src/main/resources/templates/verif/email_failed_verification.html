@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/springsecurity"
+  th:replace="~{base::layout(~{::.container}, ~{::title}, ~{::script})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="container mx-auto my-10">
+        <div class="md:mx-10 md:w-auto w-1/2 mx-auto">
+            <div th:replace="fragments/message::message"></div>
+            <a href="/auth/login" class="btn btn-primary">Login</a>
+        </div>
+    </div>
+    <script>
+    </script>
+  </body>
+</html>

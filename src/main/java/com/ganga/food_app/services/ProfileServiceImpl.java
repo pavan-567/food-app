@@ -29,4 +29,11 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
     }
 
+    @Override
+    public void uploadDP(String filePath, User user) {
+       UserProfile up = user.getUserProfile();
+       up.setImage(filePath); 
+       saveProfile(up);  
+    }
+
 }

@@ -1,8 +1,9 @@
 package com.ganga.food_app.controller;
 
 import java.security.Principal;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,12 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ganga.food_app.entities.User;
 import com.ganga.food_app.entities.UserProfile;
 import com.ganga.food_app.forms.UserForm;
 import com.ganga.food_app.helpers.Message;
+import com.ganga.food_app.helpers.VerificationHelper;
 import com.ganga.food_app.helpers.HelperEnums.MessageType;
+import com.ganga.food_app.services.EmailService;
 import com.ganga.food_app.services.RoleService;
 import com.ganga.food_app.services.UserService;
 
@@ -26,13 +30,11 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final EmailService emailService;
 
     @GetMapping("/login")
     public String login(@PathVariable(value = "error", required = false) String error, Principal principal,
@@ -64,11 +66,13 @@ public class AuthController {
             return "auth/register";
 
         String deliveryResult = request.getParameter("delivery");
-        boolean isDelivery = deliveryResult == null ? false : true;
+        boolean isDelivery = deliveryResult != null;
 
         User u = User.builder()
+                .name(userForm.getUsername())
                 .email(userForm.getEmail())
                 .password(userForm.getPassword())
+                .emailToken(UUID.randomUUID())
                 .build();
 
         UserProfile up = UserProfile.builder()
@@ -96,10 +100,37 @@ public class AuthController {
             up.setImage("/images/profile/female.png");
         }
 
-        session.setAttribute("message", new Message("Registration Successfull", MessageType.SUCCESS));
-
-        userService.saveUser(u);
+        User savedUser = userService.saveUser(u);
+        if(savedUser != null) {
+            session.setAttribute("message", new Message("Registration Successfull! An Email Has Sent To Your Inbox.. Click The Link To Verify Your Email", MessageType.WARNING));
+            emailService.sendEmail(
+                savedUser.getEmail(),
+                "Email Verification",
+                VerificationHelper.getLinkForEmailVerification(savedUser.getEmailToken())
+            );
+        } else {
+            session.setAttribute("message", new Message("Email not verified ! Token is not associated with user .", MessageType.DANGER));
+        }
         return "redirect:/auth/register";
+    }
+
+    @GetMapping("/verify-email")
+    public String verifyEmail(@RequestParam(value = "token", required = false) UUID token, HttpSession session) {
+        if(token == null) {
+            session.setAttribute("message", new Message("Invalid Source! The Page You are Looking To Load Is Invalid", MessageType.WARNING));
+            return "verif/email_failed_verification";
+        }
+
+        User user = userService.findByToken(token);
+        if(user != null) {
+            user.setEnabled(1);
+            userService.updateUser(user);
+            session.setAttribute("message", new Message("Email Verified! Now, You Can Login!", MessageType.SUCCESS));
+            return "verif/email_success_verified";
+        } else {
+            session.setAttribute("message", new Message("Error! Something Went Wrong!", MessageType.DANGER));
+            return "verif/email_failed_verification";
+        }
     }
 
 }

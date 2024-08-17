@@ -1,5 +1,6 @@
 package com.ganga.food_app.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.ganga.food_app.services.CustomUserSecurityDetailService;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private CustomUserSecurityDetailService userSecurityDetailService;
+    private final CustomUserSecurityDetailService userSecurityDetailService;
+    private final AuthFailureHandler failureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -24,7 +26,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userSecurityDetailService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -33,24 +35,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.formLogin(customizer -> {
-            customizer.loginPage("/auth/login");
-            customizer.loginProcessingUrl("/authenticate");
-            // customizer.successForwardUrl("/user/dashboard");
-            // customizer.failureForwardUrl("/auth/login?error=true");
-            customizer.usernameParameter("email");
-            customizer.passwordParameter("password");
-        });
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.logout(logouter -> {
-            logouter.logoutUrl("/logout");
-            logouter.logoutSuccessUrl("/auth/login?logout=true");
-            logouter.invalidateHttpSession(true);
-            logouter.deleteCookies("JSESSIONID");
-        });
 
         http.authorizeHttpRequests(configurer -> {
             configurer.requestMatchers("/items").permitAll();
@@ -64,7 +48,29 @@ public class SecurityConfig {
             configurer.anyRequest().permitAll();
         });
 
+        http.formLogin(customizer -> {
+            customizer.loginPage("/auth/login");
+            customizer.loginProcessingUrl("/authenticate");
+            // customizer.successForwardUrl("/user/dashboard");
+            // customizer.failureForwardUrl("/auth/login?error=true");
+            customizer.usernameParameter("email");
+            customizer.passwordParameter("password");
+            customizer.failureHandler(failureHandler);
+        });
+
+        // http.authenticationProvider(authenticationProvider());
         http.csrf(AbstractHttpConfigurer::disable);
+
+
+        http.logout(logouter -> {
+            logouter.logoutUrl("/logout");
+            logouter.logoutSuccessUrl("/auth/login?logout=true");
+            logouter.invalidateHttpSession(true);
+            logouter.deleteCookies("JSESSIONID");
+        });
+
+
+
         return http.build();
     }
 }

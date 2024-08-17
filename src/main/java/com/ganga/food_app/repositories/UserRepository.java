@@ -10,4 +10,5 @@ import com.ganga.food_app.entities.User;
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
     Optional<User> findByEmailAndPassword(String email, String password);
+    Optional<User> findByEmailToken(UUID emailToken);
 }
